@@ -1,0 +1,315 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────
+
+enum UserRole {
+  CLIENT
+  BARBER
+  BARBERSHOP_OWNER
+  ADMIN
+}
+
+enum BarbershopStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+enum DayOfWeek {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  PAID
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  MERCADO_PAGO
+  FLOW
+  TRANSBANK
+}
+
+// ─────────────────────────────────────────
+// USERS
+// ─────────────────────────────────────────
+
+model User {
+  id        String   @id // UUID de Supabase Auth
+  email     String   @unique
+  role      UserRole @default(CLIENT)
+  firstName String
+  lastName  String
+  phone     String?
+  avatarUrl String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownedBarbershop Barbershop?     @relation("Owner")
+  barberProfile   Barber?
+  bookings        Booking[]       @relation("ClientBookings")
+  haircutHistory  HaircutRecord[] @relation("ClientHistory")
+  reviews         Review[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────
+// BARBERSHOPS
+// ─────────────────────────────────────────
+
+model Barbershop {
+  id            String           @id @default(uuid())
+  ownerId       String           @unique
+  owner         User             @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  name          String
+  slug          String           @unique
+  description   String?
+  phone         String?
+  email         String?
+  address       String
+  city          String
+  country       String           @default("CL")
+  latitude      Float?
+  longitude     Float?
+  coverImageUrl String?
+  status        BarbershopStatus @default(PENDING)
+  rating        Float            @default(0)
+  reviewCount   Int              @default(0)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  barbers        Barber[]
+  services       Service[]
+  schedules      Schedule[]
+  blockedSlots   BlockedSlot[]
+  bookings       Booking[]
+  galleryImages  GalleryImage[]
+  reviews        Review[]
+  haircutRecords HaircutRecord[]
+
+  @@map("barbershops")
+}
+
+// ─────────────────────────────────────────
+// BARBERS
+// ─────────────────────────────────────────
+
+model Barber {
+  id           String     @id @default(uuid())
+  userId       String     @unique
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+  bio          String?
+  specialties  String[]
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+
+  bookings       Booking[]
+  haircutRecords HaircutRecord[]
+
+  @@map("barbers")
+}
+
+// ─────────────────────────────────────────
+// SERVICES
+// ─────────────────────────────────────────
+
+model Service {
+  id           String     @id @default(uuid())
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  price        Float
+  durationMin  Int
+  imageUrl     String?
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+
+  bookingServices BookingService[]
+
+  @@map("services")
+}
+
+// ─────────────────────────────────────────
+// SCHEDULE & AVAILABILITY
+// ─────────────────────────────────────────
+
+model Schedule {
+  id           String     @id @default(uuid())
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+  dayOfWeek    DayOfWeek
+  openTime     String
+  closeTime    String
+  isOpen       Boolean    @default(true)
+
+  @@unique([barbershopId, dayOfWeek])
+  @@map("schedules")
+}
+
+model BlockedSlot {
+  id           String     @id @default(uuid())
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+  barberId     String?
+  date         DateTime
+  reason       String?
+
+  @@map("blocked_slots")
+}
+
+// ─────────────────────────────────────────
+// BOOKINGS
+// ─────────────────────────────────────────
+
+model Booking {
+  id           String        @id @default(uuid())
+  clientId     String
+  client       User          @relation("ClientBookings", fields: [clientId], references: [id])
+  barbershopId String
+  barbershop   Barbershop    @relation(fields: [barbershopId], references: [id])
+  barberId     String
+  barber       Barber        @relation(fields: [barberId], references: [id])
+  scheduledAt  DateTime
+  endsAt       DateTime
+  status       BookingStatus @default(PENDING)
+  totalAmount  Float
+  notes        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  services      BookingService[]
+  payment       Payment?
+  haircutRecord HaircutRecord?
+
+  @@map("bookings")
+}
+
+model BookingService {
+  id          String  @id @default(uuid())
+  bookingId   String
+  booking     Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  serviceId   String
+  service     Service @relation(fields: [serviceId], references: [id])
+  priceAtTime Float
+
+  @@map("booking_services")
+}
+
+// ─────────────────────────────────────────
+// PAYMENTS
+// ─────────────────────────────────────────
+
+model Payment {
+  id             String          @id @default(uuid())
+  bookingId      String          @unique
+  booking        Booking         @relation(fields: [bookingId], references: [id])
+  amount         Float
+  provider       PaymentProvider
+  providerRef    String?
+  status         PaymentStatus   @default(PENDING)
+  paidAt         DateTime?
+  webhookPayload Json?
+  createdAt      DateTime        @default(now())
+
+  @@map("payments")
+}
+
+// ─────────────────────────────────────────
+// HAIRCUT HISTORY
+// ─────────────────────────────────────────
+
+model HaircutRecord {
+  id           String     @id @default(uuid())
+  clientId     String
+  client       User       @relation("ClientHistory", fields: [clientId], references: [id])
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
+  barberId     String
+  barber       Barber     @relation(fields: [barberId], references: [id])
+  bookingId    String?    @unique
+  booking      Booking?   @relation(fields: [bookingId], references: [id])
+  serviceNames String[]
+  notes        String?
+  recordedAt   DateTime   @default(now())
+
+  photos HaircutPhoto[]
+
+  @@map("haircut_records")
+}
+
+model HaircutPhoto {
+  id              String        @id @default(uuid())
+  haircutRecordId String
+  haircutRecord   HaircutRecord @relation(fields: [haircutRecordId], references: [id], onDelete: Cascade)
+  url             String
+  caption         String?
+  uploadedAt      DateTime      @default(now())
+
+  @@map("haircut_photos")
+}
+
+// ─────────────────────────────────────────
+// REVIEWS
+// ─────────────────────────────────────────
+
+model Review {
+  id           String     @id @default(uuid())
+  clientId     String
+  client       User       @relation(fields: [clientId], references: [id])
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
+  rating       Int
+  comment      String?
+  createdAt    DateTime   @default(now())
+
+  @@unique([clientId, barbershopId])
+  @@map("reviews")
+}
+
+// ─────────────────────────────────────────
+// GALLERY
+// ─────────────────────────────────────────
+
+model GalleryImage {
+  id           String     @id @default(uuid())
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
+  url          String
+  caption      String?
+  order        Int        @default(0)
+  createdAt    DateTime   @default(now())
+
+  @@map("gallery_images")
+}
