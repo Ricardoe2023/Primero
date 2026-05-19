@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common'
-import { BookingStatus, User } from '@prisma/client'
+import { BookingStatus, User } from '../generated/prisma'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 import { BookingsService } from './bookings.service'
 import { CreateBookingDto } from './dto/create-booking.dto'

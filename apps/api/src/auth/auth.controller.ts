@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Patch, Post } from '@nestjs/common'
-import { User } from '@prisma/client'
+import { User } from '../generated/prisma'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 import { Public } from '../common/decorators/public.decorator'
 import { AuthService } from './auth.service'

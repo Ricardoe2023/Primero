@@ -2,11 +2,9 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 const PROTECTED_PREFIXES = ['/bookings', '/book', '/profile', '/dashboard', '/admin']
-const BARBERSHOP_ONLY = ['/dashboard']
-const ADMIN_ONLY = ['/admin']
 const AUTH_PAGES = ['/login', '/register']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -31,12 +29,10 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const path = request.nextUrl.pathname
 
-  // Redirigir usuario autenticado fuera de páginas de auth
   if (user && AUTH_PAGES.some((p) => path.startsWith(p))) {
-    return NextResponse.redirect(new URL('/marketplace', request.url))
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  // Proteger rutas que requieren login
   if (!user && PROTECTED_PREFIXES.some((p) => path.startsWith(p))) {
     return NextResponse.redirect(new URL(`/login?redirect=${path}`, request.url))
   }

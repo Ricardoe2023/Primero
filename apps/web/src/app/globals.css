@@ -1,26 +1,104 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-up {
+  animation: fade-up 0.65s var(--ease-expo) both;
+}
+
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+.delay-4 { animation-delay: 320ms; }
+.delay-5 { animation-delay: 400ms; }
+
+@keyframes ambient-drift {
+  0%, 100% { transform: scale(1) translate(0%, 0%); opacity: 0.7; }
+  33%       { transform: scale(1.08) translate(2%, -2%); opacity: 0.9; }
+  66%       { transform: scale(0.95) translate(-2%, 3%); opacity: 0.6; }
+}
+
+.animate-ambient {
+  animation: ambient-drift 12s ease-in-out infinite;
+}
+
+/* ── BarberBot animations ───────────────────────────── */
+@keyframes bot-pulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(1.08); }
+}
+@keyframes bot-blink {
+  0%, 90%, 100% { opacity: 1; }
+  95%           { opacity: 0; }
+}
+@keyframes bot-scan {
+  0%   { transform: translateX(0px); }
+  50%  { transform: translateX(4px); }
+  100% { transform: translateX(0px); }
+}
+@keyframes bot-scissors-top {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(18deg); }
+}
+@keyframes bot-scissors-bot {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(-18deg); }
+}
+@keyframes bot-float {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-2px); }
+}
+.bot-pulse  { animation: bot-pulse  2.4s ease-in-out infinite; }
+.bot-blink  { animation: bot-blink  3.2s ease-in-out infinite; }
+.bot-scan   { animation: bot-scan   1.8s ease-in-out infinite; }
+.bot-scissors-top { transform-origin: 18px 21px; animation: bot-scissors-top 2s ease-in-out infinite; }
+.bot-scissors-bot { transform-origin: 18px 21px; animation: bot-scissors-bot 2s ease-in-out infinite; }
+.bot-float  { animation: bot-float  3s ease-in-out infinite; }
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 32s linear infinite;
+  width: max-content;
+  display: flex;
+}
+
+.animate-ticker-reverse {
+  animation: ticker 36s linear infinite reverse;
+  width: max-content;
+  display: flex;
+}
+
+.ticker-track:hover .animate-ticker {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up {
+    animation: none;
+    opacity: 1;
+  }
+  .animate-ticker {
+    animation: none;
+  }
 }

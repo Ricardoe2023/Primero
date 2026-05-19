@@ -1,0 +1,90 @@
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⨯ ReferenceError: Ticker is not defined
+    at LandingPage (src\app\page.tsx:128:8)
+  126 |
+  127 |       {/* ── MARQUEE ────────────────────────────────────── */}
+> 128 |       <Ticker />
+      |        ^
+  129 |
+  130 |       {/* ── BENTO ──────────────────────────────────────── */}
+  131 |       <section className="px-4 sm:px-6 py-28 max-w-5xl mx-auto"> {
+  digest: '3280529451'
+}
+⨯ ReferenceError: Ticker is not defined
+    at LandingPage (src\app\page.tsx:128:8)
+  126 |
+  127 |       {/* ── MARQUEE ────────────────────────────────────── */}
+> 128 |       <Ticker />
+      |        ^
+  129 |
+  130 |       {/* ── BENTO ──────────────────────────────────────── */}
+  131 |       <section className="px-4 sm:px-6 py-28 max-w-5xl mx-auto"> {
+  digest: '3280529451'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⨯ ReferenceError: Ticker is not defined
+    at LandingPage (src\app\page.tsx:128:8)
+  126 |
+  127 |       {/* ── MARQUEE ────────────────────────────────────── */}
+> 128 |       <Ticker />
+      |        ^
+  129 |
+  130 |       {/* ── BENTO ──────────────────────────────────────── */}
+  131 |       <section className="px-4 sm:px-6 py-28 max-w-5xl mx-auto"> {
+  digest: '3280529451'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] ⨯ unhandledRejection: TypeError: search.toLowerCase is not a function
+    at eval (file://C:/Users/Lenovo/barbershop-marketplace/apps/web/.next/dev/static/chunks/_0gp3f~4._.js?id=%255Bproject%255D%252Fapps%252Fweb%252Fsrc%252Fapp%252F%2528client%2529%252Fmarketplace%252Fpage.tsx+%255Bapp-client%255D+%2528ecmascript%2529:24:26)
+    at Array.filter (<anonymous>)
+    at filterStatic (file://C:/Users/Lenovo/barbershop-marketplace/apps/web/.next/dev/static/chunks/_0gp3f~4._.js?id=%255Bproject%255D%252Fapps%252Fweb%252Fsrc%252Fapp%252F%2528client%2529%252Fmarketplace%252Fpage.tsx+%255Bapp-client%255D+%2528ecmascript%2529:23:168)
+    at fetchBarbershops (file://C:/Users/Lenovo/barbershop-marketplace/apps/web/.next/dev/static/chunks/_0gp3f~4._.js?id=%255Bproject%255D%252Fapps%252Fweb%252Fsrc%252Fapp%252F%2528client%2529%252Fmarketplace%252Fpage.tsx+%255Bapp-client%255D+%2528ecmascript%2529:43:12)
+    at async MarketplaceInner.useCallback[load] (file://C:/Users/Lenovo/barbershop-marketplace/apps/web/.next/dev/static/chunks/_0gp3f~4._.js?id=%255Bproject%255D%252Fapps%252Fweb%252Fsrc%252Fapp%252F%2528client%2529%252Fmarketplace%252Fpage.tsx+%255Bapp-client%255D+%2528ecmascript%2529:94:26)
+⨯ ./apps/web/src/app/page.tsx:245:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  [90m243 |[0m     </div>
+  [90m244 |[0m   )
+[31m[1m>[0m [90m245 |[0m }
+  [90m    |[0m [31m[1m^[0m
+  [90m246 |[0m
+  [90m247 |[0m [36mconst[0m [33mTICKER_ITEMS[0m = [
+  [90m248 |[0m   [32m'Fade & Taper Studio'[0m, [32m'Wahl'[0m, [32m'Andis'[0m, [32m'The Blends'[0m, [32m'BaByliss Pro'[0m,
+
+Parsing ecmascript source code failed
+
+
+⨯ ./apps/web/src/app/page.tsx:245:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  [90m243 |[0m     </div>
+  [90m244 |[0m   )
+[31m[1m>[0m [90m245 |[0m }
+  [90m    |[0m [31m[1m^[0m
+  [90m246 |[0m
+  [90m247 |[0m [36mconst[0m [33mTICKER_ITEMS[0m = [
+  [90m248 |[0m   [32m'Fade & Taper Studio'[0m, [32m'Wahl'[0m, [32m'Andis'[0m, [32m'The Blends'[0m, [32m'BaByliss Pro'[0m,
+
+Parsing ecmascript source code failed
+
+
+[browser] Uncaught Error: ./apps/web/src/app/page.tsx:245:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  243 |     </div>
+  244 |   )
+> 245 | }
+      | ^
+  246 |
+  247 | const TICKER_ITEMS = [
+  248 |   'Fade & Taper Studio', 'Wahl', 'Andis', 'The Blends', 'BaByliss Pro',
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./apps/web/src/app/page.tsx:245:1)
+    at <unknown> (Error: (./apps/web/src/app/page.tsx:245:1)
+npm error Lifecycle script `dev` failed with error:
+npm error code 4294967295
+npm error path C:\Users\Lenovo\barbershop-marketplace\apps\web
+npm error workspace @barbershop/web@0.1.0
+npm error location C:\Users\Lenovo\barbershop-marketplace\apps\web
+npm error command failed
+npm error command C:\Windows\system32\cmd.exe /d /s /c next dev

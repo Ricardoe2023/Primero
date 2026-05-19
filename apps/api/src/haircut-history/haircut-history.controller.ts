@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
-import { User } from '@prisma/client'
+import { User } from '../generated/prisma'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 import { HaircutHistoryService } from './haircut-history.service'
 

@@ -10,3 +10,6 @@ dist
 coverage
 src/generated/
 apps/api/src/generated/
+
+.vercel
+.env*.local

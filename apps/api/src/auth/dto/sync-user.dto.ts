@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsOptional, IsString, MinLength } from 'class-validator'
-import { UserRole } from '@prisma/client'
+import { UserRole } from '../../generated/prisma'
 
 export class SyncUserDto {
   @IsString()
