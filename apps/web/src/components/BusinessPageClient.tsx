@@ -7,10 +7,10 @@ import type { Service, Product, Staff } from '@/types/database'
 const BASE_URL = 'https://gestai-app.vercel.app'
 
 const DAYS: Record<string, string> = {
-  monday: 'Lunes', tuesday: 'Martes', wednesday: 'Miércoles',
-  thursday: 'Jueves', friday: 'Viernes', saturday: 'Sábado', sunday: 'Domingo',
+  '1': 'Lunes', '2': 'Martes', '3': 'Miércoles',
+  '4': 'Jueves', '5': 'Viernes', '6': 'Sábado', '0': 'Domingo',
 }
-const DAY_ORDER = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+const DAY_ORDER = ['1', '2', '3', '4', '5', '6', '0']
 
 interface Props {
   business: { id: string; name: string; description: string | null; phone: string | null; logo_url: string | null }
@@ -22,6 +22,7 @@ interface Props {
 
 export default function BusinessPageClient({ business, services, products, staff, location }: Props) {
   const [selectedStaff, setSelectedStaff] = useState<string | null>(null)
+  const [pendingMessage, setPendingMessage] = useState<string | undefined>()
   const hours = location?.hours ?? {}
 
   const selectedMember = staff.find(s => s.id === selectedStaff)
@@ -38,11 +39,11 @@ export default function BusinessPageClient({ business, services, products, staff
           className="fixed inset-0 pointer-events-none z-0"
           style={{
             backgroundImage: `url(${business.logo_url})`,
-            backgroundSize: '60%',
-            backgroundPosition: 'center 30%',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            opacity: 0.04,
-            filter: 'blur(2px)',
+            opacity: 0.07,
+            filter: 'blur(4px)',
           }}
         />
       )}
@@ -78,7 +79,7 @@ export default function BusinessPageClient({ business, services, products, staff
       {staff.length > 0 && (
         <section className="relative z-10 px-4 pb-12 max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70">Elige tu barbero</h2>
+            <h2 className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70">Elige tu profesional</h2>
             {selectedStaff && (
               <button onClick={() => setSelectedStaff(null)} className="text-[12px] text-white/30 hover:text-white/60 transition-colors">
                 Ver todos
@@ -137,7 +138,7 @@ export default function BusinessPageClient({ business, services, products, staff
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {filteredServices.map((s) => (
-              <div key={s.id} className="flex flex-col justify-between px-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-amber-500/20 transition-colors">
+              <div key={s.id} className="flex flex-col justify-between px-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-amber-500/20 transition-colors group">
                 <div>
                   <p className="text-[13px] font-medium text-white leading-tight">{s.name}</p>
                   {s.description && <p className="text-[11px] text-white/30 mt-0.5 leading-snug">{s.description}</p>}
@@ -146,6 +147,12 @@ export default function BusinessPageClient({ business, services, products, staff
                   <p className="text-[13px] font-semibold text-amber-400">${Number(s.price).toLocaleString('es-CL')}</p>
                   <p className="text-[11px] text-white/25">{s.duration_minutes} min</p>
                 </div>
+                <button
+                  onClick={() => setPendingMessage(`Quiero agendar ${s.name} ($${Number(s.price).toLocaleString('es-CL')}, ${s.duration_minutes} min)${selectedMember ? ` con ${selectedMember.name}` : ''}`)}
+                  className="mt-3 w-full py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 hover:border-amber-500/40 text-amber-400 text-[12px] font-medium transition-all duration-150"
+                >
+                  Agendar
+                </button>
               </div>
             ))}
           </div>
@@ -199,6 +206,8 @@ export default function BusinessPageClient({ business, services, products, staff
         businessId={business.id}
         businessName={business.name}
         selectedStaffName={selectedMember?.name}
+        pendingMessage={pendingMessage}
+        onPendingConsumed={() => setPendingMessage(undefined)}
       />
     </>
   )
