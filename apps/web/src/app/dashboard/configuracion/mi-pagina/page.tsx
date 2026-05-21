@@ -104,7 +104,6 @@ export default function MiPaginaPage() {
       setLogoUrl(urlWithBust)
     }
     setUploadingLogo(false)
-    if (logoInputRef.current) logoInputRef.current.value = ''
   }
 
   async function copyLink() {
