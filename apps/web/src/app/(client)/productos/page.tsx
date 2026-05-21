@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import NovuLogo from '@/components/NovuLogo'
 
@@ -137,11 +138,13 @@ function CartDrawer({ items, onRemove, onClose }: { items: CartItem[]; onRemove:
 }
 
 function ProductosInner() {
+  const searchParams = useSearchParams()
+  const bizParam = searchParams.get('biz') ?? 'all'
   const [products, setProducts] = useState<Product[]>([])
   const [businesses, setBusinesses] = useState<{ id: string; name: string }[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [bizFilter, setBizFilter] = useState('all')
+  const [bizFilter, setBizFilter] = useState(bizParam)
   const [sort, setSort] = useState<SortKey>('recientes')
   const [cart, setCart] = useState<CartItem[]>([])
   const [cartOpen, setCartOpen] = useState(false)

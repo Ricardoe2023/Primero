@@ -40,7 +40,7 @@ export default async function BusinessPage({ params }: { params: Promise<{ slug:
             <NovuLogo height={20} wordmark />
           </Link>
           <Link
-            href="/productos"
+            href={`/productos?biz=${business.id}`}
             className="px-3.5 py-1.5 text-[12px] bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-full transition-colors"
           >
             Mi marketplace
