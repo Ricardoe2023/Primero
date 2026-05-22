@@ -29,10 +29,10 @@ export default function LandingPage() {
             <NovuLogo height={22} wordmark />
           </Link>
           <div className="flex items-center gap-2">
-            <Link href="/productos" className="px-4 py-1.5 text-[13px] bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.10] text-white/60 hover:text-white rounded-full transition-colors hidden sm:block">
+            <Link href="/productos" className="px-3 sm:px-4 py-1.5 text-[12px] sm:text-[13px] bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.10] text-white/60 hover:text-white rounded-full transition-colors">
               Marketplace
             </Link>
-            <Link href="/login" className="px-4 py-1.5 text-[13px] bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.10] text-white/60 hover:text-white rounded-full transition-colors hidden sm:block">
+            <Link href="/login" className="px-3 sm:px-4 py-1.5 text-[12px] sm:text-[13px] bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.10] text-white/60 hover:text-white rounded-full transition-colors">
               Iniciar sesión
             </Link>
           </div>
@@ -49,8 +49,8 @@ export default function LandingPage() {
           </div>
 
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/[0.07] px-3.5 py-1 mb-6 animate-fade-up">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/80">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.18em] font-medium text-amber-400/80 whitespace-nowrap">
               Agente operativo con IA · Gestión inteligente
             </span>
           </div>
