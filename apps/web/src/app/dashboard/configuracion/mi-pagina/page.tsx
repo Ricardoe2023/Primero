@@ -146,29 +146,27 @@ export default function MiPaginaPage() {
         </div>
       </div>
 
-      {/* Link actual + editar */}
+      {/* Tu link público */}
       <div className="bg-white/[0.03] border border-white/[0.10] rounded-2xl px-5 py-5 space-y-4">
         <p className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-medium">Tu link público</p>
 
-        {/* Display + acciones */}
-        <div className="flex items-center gap-3">
-          <div className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.08]">
-            <p className="text-[13px] text-amber-400 truncate font-mono">{BASE_URL}/<span className="text-white">{slug}</span></p>
+        <div className="flex items-center gap-2">
+          <div className="flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08]">
+            <p className="text-[12px] text-amber-400 truncate font-mono">{BASE_URL}/<span className="text-white">{slug}</span></p>
           </div>
-          <button onClick={copyLink} className="shrink-0 px-4 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 flex items-center gap-2">
-            {copied ? (<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Copiado</>) : (<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</>)}
+          <button onClick={copyLink} className="shrink-0 px-3 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[12px] font-semibold transition-colors duration-150 flex items-center gap-1.5">
+            {copied ? (<><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Copiado</>) : (<><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</>)}
           </button>
-          <a href={`${BASE_URL}/${slug}`} target="_blank" rel="noopener noreferrer" className="shrink-0 px-4 py-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/[0.08] text-white/50 hover:text-white text-[13px] transition-colors duration-150 flex items-center gap-2">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <a href={`${BASE_URL}/${slug}`} target="_blank" rel="noopener noreferrer" className="shrink-0 px-3 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/[0.08] text-white/50 hover:text-white text-[12px] transition-colors duration-150 flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             Ver
           </a>
         </div>
 
-        {/* Editar slug inline */}
         <div>
           <label className="block text-[12px] text-white/40 mb-1.5">Cambiar URL</label>
           <div className="flex items-center gap-2">
-            <span className="text-[13px] text-white/25 font-mono shrink-0">gestai-app.vercel.app/</span>
+            <span className="text-[11px] text-white/25 font-mono shrink-0 hidden sm:block">gestai-app.vercel.app/</span>
             <input
               type="text"
               value={slugInput}
@@ -178,29 +176,25 @@ export default function MiPaginaPage() {
               className="flex-1 bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 font-mono"
             />
           </div>
+          <p className="text-[11px] text-white/20 mt-1 sm:hidden">gestai-app.vercel.app/<span className="text-amber-400/50">{slugInput || slug}</span></p>
           {slugInput && sanitize(slugInput) !== slugInput && (
             <p className="text-[11px] text-white/30 mt-1">Quedará como: <span className="text-amber-400/70 font-mono">{sanitize(slugInput)}</span></p>
           )}
         </div>
         {error && <p className="text-[13px] text-red-400">{error}</p>}
         {success && <p className="text-[13px] text-emerald-400">URL actualizada correctamente.</p>}
-        <button
-          onClick={handleSaveSlug}
-          disabled={saving || !slugInput.trim() || sanitize(slugInput) === slug}
-          className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
-        >
+        <button onClick={handleSaveSlug} disabled={saving || !slugInput.trim() || sanitize(slugInput) === slug}
+          className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
           {saving ? 'Guardando…' : 'Guardar URL'}
         </button>
       </div>
 
-      {/* Editar nombre */}
+      {/* Nombre del negocio */}
       <div className="bg-white/[0.03] border border-white/[0.10] rounded-2xl px-5 py-5 space-y-4">
         <p className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-medium">Nombre del negocio</p>
         <div>
           <label className="block text-[12px] text-white/40 mb-1.5">Nombre visible para los clientes</label>
-          <input
-            type="text"
-            value={nameInput}
+          <input type="text" value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSaveName()}
             placeholder="Ej. Mister Martinez"
@@ -208,49 +202,9 @@ export default function MiPaginaPage() {
           />
         </div>
         {nameSuccess && <p className="text-[13px] text-emerald-400">Nombre actualizado correctamente.</p>}
-        <button
-          onClick={handleSaveName}
-          disabled={savingName || !nameInput.trim() || nameInput.trim() === savedName}
-          className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
-        >
+        <button onClick={handleSaveName} disabled={savingName || !nameInput.trim() || nameInput.trim() === savedName}
+          className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
           {savingName ? 'Guardando…' : 'Guardar nombre'}
-        </button>
-      </div>
-
-      {/* Editar slug */}
-      <div className="bg-white/[0.03] border border-white/[0.10] rounded-2xl px-5 py-5 space-y-4">
-        <p className="text-[11px] uppercase tracking-[0.15em] text-white/30 font-medium">Personalizar URL</p>
-        <div>
-          <label className="block text-[12px] text-white/40 mb-1.5">Nombre en la URL</label>
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] text-white/25 font-mono shrink-0">gestai-app.vercel.app/</span>
-            <input
-              type="text"
-              value={slugInput}
-              onChange={(e) => { setSlugInput(e.target.value); setError(null) }}
-              onKeyDown={(e) => e.key === 'Enter' && handleSaveSlug()}
-              placeholder="mi-negocio"
-              className="flex-1 bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 font-mono"
-            />
-          </div>
-          {slugInput && sanitize(slugInput) !== slugInput && (
-            <p className="text-[11px] text-white/30 mt-1.5">
-              Quedará como: <span className="text-amber-400/70 font-mono">{sanitize(slugInput)}</span>
-            </p>
-          )}
-        </div>
-        <div className="px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-          <p className="text-[11px] text-white/25">Vista previa:</p>
-          <p className="text-[13px] font-mono text-white/50 mt-0.5 truncate">{BASE_URL}/{previewSlug}</p>
-        </div>
-        {error && <p className="text-[13px] text-red-400">{error}</p>}
-        {success && <p className="text-[13px] text-emerald-400">URL actualizada correctamente.</p>}
-        <button
-          onClick={handleSaveSlug}
-          disabled={saving || !slugInput.trim() || sanitize(slugInput) === slug}
-          className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
-        >
-          {saving ? 'Guardando…' : 'Guardar URL'}
         </button>
       </div>
     </div>
