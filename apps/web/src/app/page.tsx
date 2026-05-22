@@ -28,18 +28,12 @@ export default function LandingPage() {
           <Link href="/" className="flex items-center gap-2.5">
             <NovuLogo height={22} wordmark />
           </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/productos" className="text-[13px] text-white/50 hover:text-white transition-colors hidden sm:block">
+          <div className="flex items-center gap-2">
+            <Link href="/productos" className="px-4 py-1.5 text-[13px] bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.10] text-white/60 hover:text-white rounded-full transition-colors hidden sm:block">
               Marketplace
             </Link>
-            <Link href="/login" className="text-[13px] text-white/50 hover:text-white transition-colors hidden sm:block">
+            <Link href="/login" className="px-4 py-1.5 text-[13px] bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.10] text-white/60 hover:text-white rounded-full transition-colors hidden sm:block">
               Iniciar sesión
-            </Link>
-            <Link
-              href="#contacto"
-              className="px-4 py-1.5 text-[13px] bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-full transition-colors"
-            >
-              Solicitar demo
             </Link>
           </div>
         </nav>
@@ -57,14 +51,14 @@ export default function LandingPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/[0.07] px-3.5 py-1 mb-6 animate-fade-up">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
             <span className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/80">
-              Agente operativo con IA · Negocios de belleza
+              Agente operativo con IA · Gestión inteligente
             </span>
           </div>
 
           <h1 className="animate-fade-up delay-1 text-[clamp(2.2rem,6vw,4rem)] font-bold tracking-tight leading-[1.05] mb-5">
             El agente operativo con IA
             <br />
-            <span className="text-amber-400">para negocios de belleza.</span>
+            <span className="text-amber-400">que trabaja por ti.</span>
           </h1>
 
           <p className="animate-fade-up delay-1 text-white/45 text-[15px] sm:text-[17px] leading-relaxed mb-10 max-w-xl mx-auto">
