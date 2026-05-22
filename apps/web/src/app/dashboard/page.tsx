@@ -60,29 +60,23 @@ export default async function AgendaPage() {
   const todayStr = today.toISOString().split('T')[0]
   const in7daysStr = new Date(today.getTime() + 7 * 86400000).toISOString().split('T')[0]
 
-  // Fire business + appointments queries in parallel (no sequential await chain)
   const bizQuery = activeBizId
     ? supabase.from('businesses').select('id, name').eq('owner_id', user.id).eq('id', activeBizId).single()
     : supabase.from('businesses').select('id, name').eq('owner_id', user.id).order('created_at', { ascending: true }).limit(1).single()
 
-  const apptQueryPromise = activeBizId
-    ? supabase.from('appointments')
+  const { data: business } = await bizQuery
+  const finalBiz = business ?? null
+  const effectiveBizId = finalBiz?.id ?? null
+
+  const { data: apptData } = effectiveBizId
+    ? await supabase.from('appointments')
         .select('id, date, start_time, end_time, status, customer_name, customer_phone, services(name, price), staff(name)')
-        .eq('business_id', activeBizId)
+        .eq('business_id', effectiveBizId)
         .gte('date', todayStr).lte('date', in7daysStr)
         .order('date').order('start_time')
-    : null
+    : { data: [] }
 
-  const [{ data: business }, apptResult] = await Promise.all([
-    bizQuery,
-    apptQueryPromise ?? Promise.resolve({ data: [] }),
-  ])
-
-  // If biz switched and cookie was stale, fall back to first business
-  const finalBiz = business ?? null
-
-  // If activeBizId was wrong (stale cookie), fetch appointments for first biz
-  const appointments = (apptResult?.data ?? []) as any[]
+  const appointments = (apptData ?? []) as any[]
 
   if (!finalBiz) {
     return (
@@ -106,8 +100,8 @@ export default async function AgendaPage() {
     .reduce((sum: number, a: any) => sum + (a.services?.price ?? 0), 0)
 
   return (
-    <div className="px-8 py-8 max-w-4xl">
-      <div className="mb-8">
+    <div className="px-4 sm:px-8 py-6 sm:py-8 max-w-4xl">
+      <div className="mb-6">
         <p className="text-[13px] text-amber-400/70 font-medium mb-0.5">Gestai Partner</p>
         <h1 className="text-[22px] font-semibold text-white">
           {firstName ? `Bienvenido, ${firstName} 👋` : 'Dashboard'}
@@ -115,15 +109,15 @@ export default async function AgendaPage() {
         <p className="text-white/35 text-[14px] mt-0.5 capitalize">{formatDate(today)} · {finalBiz.name}</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         {[
           { label: 'Citas hoy', value: todayAppts.length },
           { label: 'Ingreso real (hoy)', value: `$${realRevenue.toLocaleString('es-CL')}` },
           { label: 'Ingresos esperados (semana)', value: `$${weekRevenue.toLocaleString('es-CL')}` },
         ].map((s) => (
-          <div key={s.label} className="bg-white/[0.03] border border-white/[0.07] rounded-2xl px-5 py-4">
-            <p className="text-[12px] text-white/35 mb-1">{s.label}</p>
-            <p className="text-[24px] font-semibold text-white">{s.value}</p>
+          <div key={s.label} className="bg-white/[0.03] border border-white/[0.07] rounded-2xl px-4 py-4 flex sm:flex-col items-center sm:items-start justify-between sm:justify-start gap-2">
+            <p className="text-[12px] text-white/35">{s.label}</p>
+            <p className="text-[22px] font-semibold text-white">{s.value}</p>
           </div>
         ))}
       </div>
