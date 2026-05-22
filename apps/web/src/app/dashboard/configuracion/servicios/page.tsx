@@ -102,7 +102,7 @@ export default function ServiciosConfigPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-[13px] text-white/35">Cortes, tratamientos y servicios que ofrece el negocio.</p>
+        <p className="text-[13px] text-white/35">Servicios que ofrece tu negocio.</p>
         {!showForm && (
           <button onClick={openAdd} className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150">
             + Agregar
