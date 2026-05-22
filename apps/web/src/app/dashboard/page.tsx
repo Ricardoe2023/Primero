@@ -153,14 +153,11 @@ export default async function AgendaPage() {
 
 function AppointmentRow({ appt, showDate = false }: { appt: any; showDate?: boolean }) {
   const status = appt.status as string
+  const dateLabel = new Date(appt.date + 'T12:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric', month: 'short' })
   return (
     <div className="bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.10] rounded-2xl px-5 py-4 flex items-center gap-4 transition-colors duration-150">
-      <div className="text-center shrink-0 w-14">
-        {showDate && (
-          <p className="text-[10px] text-white/30 uppercase">
-            {new Date(appt.date + 'T12:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric' })}
-          </p>
-        )}
+      <div className="text-center shrink-0 w-16">
+        <p className="text-[10px] text-white/30 uppercase capitalize mb-0.5">{dateLabel}</p>
         <p className="text-[15px] font-semibold text-white">{formatTime(appt.start_time)}</p>
         <p className="text-[11px] text-white/30">{formatTime(appt.end_time)}</p>
       </div>
