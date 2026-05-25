@@ -8,6 +8,7 @@ import NovuLogo from '@/components/NovuLogo'
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard', icon: '📅' },
+  { href: '/dashboard/clientes', label: 'Clientes', icon: '👥' },
   { href: '/dashboard/marketplace', label: 'Marketplace', icon: '🛍️' },
   { href: '/dashboard/reportes', label: 'Reportes', icon: '📊' },
   { href: '/dashboard/configuracion', label: 'Configuración', icon: '⚙️' },

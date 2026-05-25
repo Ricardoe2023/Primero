@@ -38,10 +38,15 @@ export default function HorariosPage() {
 
       const activeBizId = getActiveBizId()
       const query = supabase.from('businesses').select('id').eq('owner_id', user.id)
-      const { data: business } = activeBizId
+      let { data: business } = activeBizId
         ? await query.eq('id', activeBizId).single()
         : await query.order('created_at', { ascending: true }).limit(1).single()
-      if (!business) return
+      // Fallback si el activeBizId no pertenece a este usuario
+      if (!business && activeBizId) {
+        const { data: fallback } = await supabase.from('businesses').select('id').eq('owner_id', user.id).order('created_at', { ascending: true }).limit(1).single()
+        business = fallback
+      }
+      if (!business) { setLoading(false); return }
 
       let { data: location } = await supabase
         .from('locations')

@@ -32,7 +32,13 @@ function renderText(text: string) {
   })
 }
 
-export default function BusinessBot({ businessId, businessName, selectedStaffName }: { businessId: string; businessName: string; selectedStaffName?: string }) {
+export default function BusinessBot({ businessId, businessName, selectedStaffName, pendingMessage, onPendingConsumed }: {
+  businessId: string
+  businessName: string
+  selectedStaffName?: string
+  pendingMessage?: string
+  onPendingConsumed?: () => void
+}) {
   const WELCOME: Message = {
     id: 0,
     from: 'bot',
@@ -46,6 +52,14 @@ export default function BusinessBot({ businessId, businessName, selectedStaffNam
   const [typing, setTyping] = useState(false)
   const [unread, setUnread] = useState(0)
   const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (pendingMessage) {
+      setOpen(true)
+      sendMessage(pendingMessage)
+      onPendingConsumed?.()
+    }
+  }, [pendingMessage])
 
   useEffect(() => {
     if (open) {

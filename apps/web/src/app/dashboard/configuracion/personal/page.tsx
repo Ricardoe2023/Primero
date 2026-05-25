@@ -30,9 +30,13 @@ export default function PersonalPage() {
       if (!user) return
       const activeBizId = getActiveBizId()
       const query = supabase.from('businesses').select('id').eq('owner_id', user.id)
-      const { data: business } = activeBizId
+      let { data: business } = activeBizId
         ? await query.eq('id', activeBizId).single()
         : await query.order('created_at', { ascending: true }).limit(1).single()
+      if (!business && activeBizId) {
+        const { data: fallback } = await supabase.from('businesses').select('id').eq('owner_id', user.id).order('created_at', { ascending: true }).limit(1).single()
+        business = fallback
+      }
       if (!business) { setLoading(false); return }
       setBusinessId(business.id)
       const { data } = await supabase
@@ -112,7 +116,7 @@ export default function PersonalPage() {
       <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
 
       <div className="flex items-center justify-between mb-6">
-        <p className="text-[13px] text-white/35">Barberos y colaboradores del negocio.</p>
+        <p className="text-[13px] text-white/35">Profesionales y colaboradores del negocio.</p>
         {!showForm && (
           <button onClick={openAdd} className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150">
             + Agregar

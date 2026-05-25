@@ -118,6 +118,20 @@ function isBookingConfirmation(text: string): boolean {
   return /reserva|cita.*confirm|confirm.*cita|quedó.*agend|agend.*quedó|nos vemos|¡listo|todo listo/i.test(text)
 }
 
+async function sendWhatsApp(phone: string, message: string) {
+  const idInstance = process.env.GREENAPI_ID_INSTANCE?.replace(/^﻿/, '').trim()
+  const apiToken = process.env.GREENAPI_API_TOKEN?.replace(/^﻿/, '').trim()
+  if (!idInstance || !apiToken) return
+  const server = idInstance.slice(0, 4)
+  const url = `https://${server}.api.green-api.com/waInstance${idInstance}/sendMessage/${apiToken}`
+  const chatId = `${phone.replace(/\D/g, '')}@c.us`
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chatId, message }),
+  }).catch(e => console.error('[sendWhatsApp error]', e))
+}
+
 async function extractAndSave(ctx: BusinessContext, messages: Anthropic.MessageParam[], confirmedText: string) {
   const today = new Date()
   const todayISO = today.toISOString().split('T')[0]
@@ -164,6 +178,17 @@ Usa los IDs exactos del listado. Si "mañana" es el día mencionado, usa ${new D
   })
 
   console.log('[save_appointment] supabase error:', error?.message ?? 'none')
+
+  // Enviar WhatsApp de confirmación al cliente
+  if (!error && args.customer_phone) {
+    const dateObj = new Date(args.date + 'T12:00:00')
+    const dateStr = dateObj.toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long' })
+    const staffMember = args.staff_id ? ctx.staff.find(s => s.id === args.staff_id) : null
+    const locationInfo = location ? `📍 ${location.name}${location.address ? ` · ${location.address}` : ''}` : ''
+    const msg = `¡Hola ${args.customer_name}! 👋\n\nTu cita en *${ctx.business.name}* ha sido confirmada ✅\n\n📋 *${args.service_name}*\n📅 ${dateStr} a las ${args.start_time}${staffMember ? `\n👤 ${staffMember.name}` : ''}${locationInfo ? `\n${locationInfo}` : ''}\n\nSi necesitas modificar o cancelar tu cita, contáctanos. ¡Hasta pronto!`
+    await sendWhatsApp(args.customer_phone, msg)
+  }
+
   return { success: !error, error: error?.message }
 }
 
@@ -192,9 +217,9 @@ export async function POST(req: NextRequest) {
     const textBlock = response.content.find((b): b is Anthropic.TextBlock => b.type === 'text')
     const text = textBlock?.text ?? ''
 
-    // Si la respuesta confirma una cita, extraer y guardar en background
+    // Si la respuesta confirma una cita, extraer y guardar (await para que Vercel no lo mate)
     if (isBookingConfirmation(text)) {
-      extractAndSave(ctx, messages, text).catch(e => console.error('[extractAndSave error]', e))
+      await extractAndSave(ctx, messages, text).catch(e => console.error('[extractAndSave error]', e))
     }
 
     return NextResponse.json({ text })

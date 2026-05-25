@@ -24,6 +24,7 @@ function RegisterForm() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [emailSent, setEmailSent] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -40,8 +41,19 @@ function RegisterForm() {
       },
     })
 
-    if (authError || !data.user) {
-      setError(authError?.message || 'Error al registrar')
+    if (authError) {
+      setError(
+        authError.message.includes('already registered')
+          ? 'Este email ya está registrado. Prueba iniciar sesión.'
+          : authError.message
+      )
+      setLoading(false)
+      return
+    }
+
+    if (!data.user) {
+      // Email confirmation pending — mostrar pantalla de éxito
+      setEmailSent(true)
       setLoading(false)
       return
     }
@@ -69,6 +81,26 @@ function RegisterForm() {
     }
 
     router.push(role === 'BARBERSHOP_OWNER' ? '/dashboard' : '/marketplace')
+  }
+
+  if (emailSent) {
+    return (
+      <div className="p-[6px] rounded-[2rem] bg-white/[0.04] border border-white/[0.08]">
+        <div className="rounded-[calc(2rem-6px)] bg-[#111010] px-7 py-10 text-center space-y-4">
+          <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <h2 className="text-white font-semibold text-[18px]">Revisa tu correo</h2>
+          <p className="text-white/45 text-[14px] leading-relaxed">
+            Te enviamos un link de confirmación a <span className="text-amber-400">{email}</span>.<br/>
+            Haz clic en el link para activar tu cuenta y acceder al dashboard.
+          </p>
+          <p className="text-white/25 text-[12px]">¿No llegó? Revisa la carpeta de spam.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
