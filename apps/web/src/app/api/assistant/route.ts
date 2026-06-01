@@ -313,16 +313,19 @@ export async function POST(req: NextRequest) {
           }
 
           if (hasToolUse && businessId) {
+            // Enviar texto inmediato para que el cliente no vea el chat pegado
+            controller.enqueue(encoder.encode('Un momento, agendando tu cita... ⏳'))
+
             const toolInput = JSON.parse(toolInputRaw || '{}')
             const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
 
-            // Construir respuesta de confirmación directamente (evita segunda llamada a Claude que puede exceder timeout de Vercel)
+            // Reemplazar el texto de "cargando" con el resultado final
             const confirmText = toolResult.startsWith('CITA_CREADA')
-              ? '¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
-              : toolResult
+              ? '\n\n¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
+              : `\n\n⚠️ ${toolResult}`
             controller.enqueue(encoder.encode(confirmText))
 
-            // Await WA mientras el stream sigue abierto — mantiene la función viva hasta completar
+            // Enviar WhatsApp mientras el stream sigue abierto
             if (waPhone && waMsg) {
               try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA]', e) }
             }
