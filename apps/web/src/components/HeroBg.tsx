@@ -56,8 +56,8 @@ export default function HeroBg() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, 90px)',
           gridAutoRows: '90px',
-          filter: 'grayscale(100%) brightness(0.45)',
-          opacity: 0.22,
+          filter: 'grayscale(100%) brightness(1.1) blur(0px)',
+          opacity: 0.12,
           transform: 'scale(1.06)',
           transformOrigin: 'center top',
           minHeight: '100%',
@@ -78,14 +78,14 @@ export default function HeroBg() {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#080706] to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#080706] to-transparent" />
-      <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#080706] to-transparent" />
-      <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#080706] to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent" />
+      <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent" />
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(8,7,6,0.55) 0%, transparent 100%)',
+          background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255,255,255,0.7) 0%, transparent 100%)',
         }}
       />
     </div>
