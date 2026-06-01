@@ -11,10 +11,10 @@ const STATUS_LABEL: Record<string, string> = {
   cancelled: 'Cancelada', no_show: 'No asistió',
 }
 const STATUS_COLOR: Record<string, string> = {
-  confirmed: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  confirmed: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
   completed: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
   cancelled: 'bg-red-500/10 text-red-400 border-red-500/20',
-  no_show: 'bg-white/[0.05] text-white/30 border-white/10',
+  no_show: 'bg-blue-950/[0.3] text-white/40 border-blue-400/10',
 }
 
 function formatTime(t: string) { return t.slice(0, 5) }
@@ -81,8 +81,8 @@ export default async function AgendaPage() {
   if (!finalBiz) {
     return (
       <div className="px-8 py-8">
-        <div className="mb-8 p-6 rounded-2xl border border-amber-500/20 bg-amber-500/[0.05]">
-          <p className="text-[13px] text-amber-400/70 font-medium mb-1">Bienvenido a</p>
+        <div className="mb-8 p-6 rounded-2xl border border-blue-500/20 bg-blue-500/[0.05]">
+          <p className="text-[13px] text-blue-400/70 font-medium mb-1">Bienvenido a</p>
           <h1 className="text-[26px] font-semibold text-white">Gestai Partner {firstName ? `👋 ${firstName}` : ''}</h1>
           <p className="text-white/35 text-[14px] mt-1">Tu negocio aún no está configurado.</p>
         </div>
@@ -102,7 +102,7 @@ export default async function AgendaPage() {
   return (
     <div className="px-4 sm:px-8 py-6 sm:py-8 max-w-4xl">
       <div className="mb-6">
-        <p className="text-[13px] text-amber-400/70 font-medium mb-0.5">Gestai Partner</p>
+        <p className="text-[13px] text-blue-400/70 font-medium mb-0.5">Gestai Partner</p>
         <h1 className="text-[22px] font-semibold text-white">
           {firstName ? `Bienvenido, ${firstName} 👋` : 'Dashboard'}
         </h1>
@@ -115,7 +115,7 @@ export default async function AgendaPage() {
           { label: 'Ingreso real (hoy)', value: `$${realRevenue.toLocaleString('es-CL')}` },
           { label: 'Ingresos esperados (semana)', value: `$${weekRevenue.toLocaleString('es-CL')}` },
         ].map((s) => (
-          <div key={s.label} className="bg-white/[0.03] border border-white/[0.07] rounded-2xl px-4 py-4 flex sm:flex-col items-center sm:items-start justify-between sm:justify-start gap-2">
+          <div key={s.label} className="bg-[#0f1e35] border border-blue-400/[0.10] rounded-2xl px-4 py-4 flex sm:flex-col items-center sm:items-start justify-between sm:justify-start gap-2">
             <p className="text-[12px] text-white/35">{s.label}</p>
             <p className="text-[22px] font-semibold text-white">{s.value}</p>
           </div>
@@ -129,7 +129,7 @@ export default async function AgendaPage() {
       <section className="mb-8">
         <h2 className="text-[14px] font-semibold text-white/50 uppercase tracking-wider mb-3">Hoy</h2>
         {todayAppts.length === 0 ? (
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl px-5 py-6 text-center">
+          <div className="bg-[#0f1e35] border border-blue-400/[0.08] rounded-2xl px-5 py-6 text-center">
             <p className="text-white/25 text-[14px]">Sin citas para hoy</p>
           </div>
         ) : (
@@ -155,7 +155,7 @@ function AppointmentRow({ appt, showDate = false }: { appt: any; showDate?: bool
   const status = appt.status as string
   const dateLabel = new Date(appt.date + 'T12:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric', month: 'short' })
   return (
-    <div className="bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.10] rounded-2xl px-5 py-4 flex items-center gap-4 transition-colors duration-150">
+    <div className="bg-[#0f1e35] border border-blue-400/[0.10] hover:border-blue-400/[0.20] rounded-2xl px-5 py-4 flex items-center gap-4 transition-colors duration-150">
       <div className="text-center shrink-0 w-16">
         <p className="text-[10px] text-white/30 uppercase capitalize mb-0.5">{dateLabel}</p>
         <p className="text-[15px] font-semibold text-white">{formatTime(appt.start_time)}</p>
