@@ -33,9 +33,9 @@ const CATEGORY_DOT: Record<string, string> = {
 
 function LogoCard({ name, category }: { name: string; category: string }) {
   return (
-    <div className="shrink-0 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.07] mx-2">
+    <div className="shrink-0 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white border border-blue-950/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.05)] mx-2">
       <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_DOT[category]}`} />
-      <span className="text-[14px] font-semibold text-white/70 whitespace-nowrap tracking-tight">
+      <span className="text-[14px] font-semibold text-slate-600 whitespace-nowrap tracking-tight">
         {name}
       </span>
     </div>
@@ -48,14 +48,14 @@ export default function ClientsMarquee() {
 
   return (
     <section className="py-20 overflow-hidden">
-      <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-10 text-center">
+      <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-10 text-center">
         Confían en Gestai
       </p>
 
       {/* Row 1 — right to left */}
       <div className="relative mb-3">
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#080706] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#080706] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
         <div className="flex animate-ticker">
           {row1.map((c, i) => <LogoCard key={i} {...c} />)}
         </div>
@@ -63,8 +63,8 @@ export default function ClientsMarquee() {
 
       {/* Row 2 — left to right (reverse) */}
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#080706] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#080706] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
         <div className="flex animate-ticker-reverse">
           {row2.map((c, i) => <LogoCard key={i} {...c} />)}
         </div>
