@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@supabase/supabase-js'
 
@@ -313,21 +313,21 @@ export async function POST(req: NextRequest) {
           }
 
           if (hasToolUse && businessId) {
-            // Enviar texto inmediato para que el cliente no vea el chat pegado
-            controller.enqueue(encoder.encode('Un momento, agendando tu cita... ⏳'))
-
+            // Ejecutar tool (Supabase insert)
             const toolInput = JSON.parse(toolInputRaw || '{}')
             const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
 
-            // Reemplazar el texto de "cargando" con el resultado final
+            // Enviar confirmación al cliente
             const confirmText = toolResult.startsWith('CITA_CREADA')
-              ? '\n\n¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
-              : `\n\n⚠️ ${toolResult}`
+              ? '¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
+              : `⚠️ ${toolResult}`
             controller.enqueue(encoder.encode(confirmText))
 
-            // Enviar WhatsApp mientras el stream sigue abierto
+            // Enviar WhatsApp DESPUÉS de que la respuesta ya fue al cliente (no bloquea el stream)
             if (waPhone && waMsg) {
-              try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA]', e) }
+              after(async () => {
+                try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA after]', e) }
+              })
             }
           }
         } catch (e) {
