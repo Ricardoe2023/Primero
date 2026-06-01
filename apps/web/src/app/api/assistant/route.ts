@@ -272,18 +272,19 @@ export async function POST(req: NextRequest) {
     const system = buildSystemPrompt(context, staffName)
     const encoder = new TextEncoder()
 
+    // Variables para capturar datos del tool fuera del stream
+    let pendingWaPhone: string | undefined
+    let pendingWaMsg: string | undefined
+
     const readable = new ReadableStream({
       async start(controller) {
         try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          let assistantBlocks: any[] = []
-          let toolUseId = ''
           let toolName = ''
           let toolInputRaw = ''
           let hasToolUse = false
 
           const stream1 = await anthropic.messages.create({
-            model: 'claude-sonnet-4-6',
+            model: 'claude-haiku-4-5-20251001',
             max_tokens: 600,
             system,
             messages,
@@ -293,18 +294,12 @@ export async function POST(req: NextRequest) {
 
           for await (const event of stream1) {
             if (event.type === 'content_block_start') {
-              if (event.content_block.type === 'text') {
-                assistantBlocks.push({ type: 'text', text: '' })
-              } else if (event.content_block.type === 'tool_use') {
+              if (event.content_block.type === 'tool_use') {
                 hasToolUse = true
-                toolUseId = event.content_block.id
                 toolName = event.content_block.name
-                assistantBlocks.push({ type: 'tool_use', id: toolUseId, name: toolName, input: {} })
               }
             } else if (event.type === 'content_block_delta') {
               if (event.delta.type === 'text_delta') {
-                const last = assistantBlocks[assistantBlocks.length - 1]
-                if (last?.type === 'text') (last as any).text += event.delta.text
                 controller.enqueue(encoder.encode(event.delta.text))
               } else if (event.delta.type === 'input_json_delta') {
                 toolInputRaw += event.delta.partial_json
@@ -313,22 +308,17 @@ export async function POST(req: NextRequest) {
           }
 
           if (hasToolUse && businessId) {
-            // Ejecutar tool (Supabase insert)
             const toolInput = JSON.parse(toolInputRaw || '{}')
             const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
 
-            // Enviar confirmación al cliente
             const confirmText = toolResult.startsWith('CITA_CREADA')
               ? '¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
               : `⚠️ ${toolResult}`
             controller.enqueue(encoder.encode(confirmText))
 
-            // Enviar WhatsApp DESPUÉS de que la respuesta ya fue al cliente (no bloquea el stream)
-            if (waPhone && waMsg) {
-              after(async () => {
-                try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA after]', e) }
-              })
-            }
+            // Guardar para enviar después de cerrar el stream
+            pendingWaPhone = waPhone
+            pendingWaMsg = waMsg
           }
         } catch (e) {
           console.error('[assistant stream error]', e)
@@ -336,6 +326,13 @@ export async function POST(req: NextRequest) {
           controller.close()
         }
       },
+    })
+
+    // Enviar WhatsApp después de que el stream haya cerrado
+    after(async () => {
+      if (pendingWaPhone && pendingWaMsg) {
+        try { await sendWhatsApp(pendingWaPhone, pendingWaMsg) } catch (e) { console.error('[WA after]', e) }
+      }
     })
 
     return new Response(readable, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
