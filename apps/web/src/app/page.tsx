@@ -7,7 +7,7 @@ import HeroBg from '@/components/HeroBg'
 
 // ─── Icon helpers ──────────────────────────────────────────────────────────────
 const CheckIcon = () => (
-  <svg className="shrink-0 text-amber-400" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="shrink-0 text-blue-400" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
   </svg>
 )
@@ -48,9 +48,9 @@ export default function LandingPage() {
             <NovuLogo height={48} wordmark />
           </div>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/[0.07] px-3.5 py-1 mb-6 animate-fade-up">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.18em] font-medium text-amber-400/80 whitespace-nowrap">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/[0.07] px-3.5 py-1 mb-6 animate-fade-up">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shrink-0" />
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.12em] sm:tracking-[0.18em] font-medium text-blue-400/80 whitespace-nowrap">
               Agente operativo con IA · Gestión inteligente
             </span>
           </div>
@@ -58,7 +58,7 @@ export default function LandingPage() {
           <h1 className="animate-fade-up delay-1 text-[clamp(2.2rem,6vw,4rem)] font-bold tracking-tight leading-[1.05] mb-5">
             El agente operativo con IA
             <br />
-            <span className="text-amber-400">que trabaja por ti.</span>
+            <span className="text-blue-400">que trabaja por ti.</span>
           </h1>
 
           <p className="animate-fade-up delay-1 text-white/45 text-[15px] sm:text-[17px] leading-relaxed mb-10 max-w-xl mx-auto">
@@ -68,13 +68,13 @@ export default function LandingPage() {
           <div className="animate-fade-up delay-2 flex flex-col sm:flex-row items-center gap-3 w-full max-w-md">
             <Link
               href="#contacto"
-              className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-full text-[14px] active:scale-[0.97] transition-all"
+              className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full text-[14px] active:scale-[0.97] transition-all"
             >
               Solicitar demo gratuita
             </Link>
             <a
               href="#como-funciona"
-              className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/[0.14] hover:border-amber-500/40 rounded-full text-[14px] text-white/60 hover:text-white transition-all"
+              className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/[0.14] hover:border-blue-500/40 rounded-full text-[14px] text-white/60 hover:text-white transition-all"
             >
               Ver cómo funciona
             </a>
@@ -87,7 +87,7 @@ export default function LandingPage() {
               { n: '+60%', label: 'Más reservas' },
             ].map(({ n, label }) => (
               <div key={label} className="text-center">
-                <p className="text-[1.6rem] font-bold text-amber-400 leading-none">{n}</p>
+                <p className="text-[1.6rem] font-bold text-blue-400 leading-none">{n}</p>
                 <p className="text-[12px] text-white/35 mt-1">{label}</p>
               </div>
             ))}
@@ -100,7 +100,7 @@ export default function LandingPage() {
 
       {/* ── 2. PROBLEMA ──────────────────────────────────── */}
       <section className="px-4 py-28 max-w-5xl mx-auto">
-        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-3 text-center">
+        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-3 text-center">
           El problema
         </p>
         <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight text-center mb-4">
@@ -146,7 +146,7 @@ export default function LandingPage() {
 
       {/* ── 3. SOLUCIÓN ──────────────────────────────────── */}
       <section id="como-funciona" className="px-4 py-28 max-w-5xl mx-auto">
-        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-3 text-center">
+        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-3 text-center">
           La solución
         </p>
         <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight text-center mb-4">
@@ -167,7 +167,7 @@ export default function LandingPage() {
             { icon: '🛍️', label: 'Marketplace propio' },
             { icon: '📊', label: 'Reportes en tiempo real' },
           ].map((f) => (
-            <div key={f.label} className="p-[5px] rounded-2xl bg-white/[0.04] border border-white/[0.07] hover:border-amber-500/20 transition-colors">
+            <div key={f.label} className="p-[5px] rounded-2xl bg-white/[0.04] border border-white/[0.07] hover:border-blue-500/20 transition-colors">
               <div className="rounded-[calc(1rem-2px)] bg-[#111010] px-4 py-5 h-full flex flex-col items-center justify-center text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
                 <span className="text-2xl mb-2 block">{f.icon}</span>
                 <p className="text-[12px] font-semibold text-white/70 leading-snug">{f.label}</p>
@@ -176,7 +176,7 @@ export default function LandingPage() {
           ))}
         </div>
 
-        <div className="p-[6px] rounded-[2rem] bg-amber-500/[0.07] border border-amber-500/20">
+        <div className="p-[6px] rounded-[2rem] bg-blue-500/[0.07] border border-blue-500/20">
           <div className="rounded-[calc(2rem-6px)] bg-[#0f0e0d] px-8 py-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
@@ -185,7 +185,7 @@ export default function LandingPage() {
                 { step: '03', title: 'Controla desde tu panel', desc: 'Ve reportes, administra staff, ajusta precios y toma decisiones con datos reales.' },
               ].map((s) => (
                 <div key={s.step} className="flex flex-col">
-                  <span className="text-[11px] font-mono text-amber-400/40 font-bold mb-3">{s.step}</span>
+                  <span className="text-[11px] font-mono text-blue-400/40 font-bold mb-3">{s.step}</span>
                   <h3 className="text-[16px] font-bold mb-2">{s.title}</h3>
                   <p className="text-white/40 text-[13px] leading-relaxed">{s.desc}</p>
                 </div>
@@ -197,13 +197,13 @@ export default function LandingPage() {
 
       {/* ── 4. AGENTE IA ─────────────────────────────────── */}
       <section className="px-4 py-28 max-w-5xl mx-auto">
-        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-3 text-center">
+        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-3 text-center">
           Inteligencia artificial
         </p>
         <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight text-center mb-4">
           Pregúntale a Gestai como si fuera
           <br />
-          <span className="text-amber-400">tu administrador digital.</span>
+          <span className="text-blue-400">tu administrador digital.</span>
         </h2>
         <p className="text-white/40 text-center text-[15px] max-w-lg mx-auto mb-14">
           Tu agente IA conoce cada detalle de tu negocio y actúa en tiempo real — sin que tengas que hacer nada.
@@ -211,13 +211,13 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
           {/* Chat demo mockup */}
-          <div className="p-[6px] rounded-[2rem] bg-white/[0.04] border border-amber-500/15">
+          <div className="p-[6px] rounded-[2rem] bg-white/[0.04] border border-blue-500/15">
             <div className="rounded-[calc(2rem-6px)] bg-[#0f0e0d] px-6 py-6 h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
               <div className="flex items-center gap-2 mb-5">
-                <div className="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
                   <span className="text-[12px]">✨</span>
                 </div>
-                <span className="text-[13px] font-semibold text-amber-400">Gestai IA</span>
+                <span className="text-[13px] font-semibold text-blue-400">Gestai IA</span>
                 <span className="ml-auto w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </div>
 
@@ -231,7 +231,7 @@ export default function LandingPage() {
                   <div key={i} className={`flex ${msg.user ? 'justify-end' : 'justify-start'}`}>
                     <div className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl text-[12.5px] leading-relaxed ${
                       msg.user
-                        ? 'bg-amber-500/15 border border-amber-500/20 text-amber-100'
+                        ? 'bg-blue-500/15 border border-blue-500/20 text-blue-100'
                         : 'bg-white/[0.06] border border-white/[0.08] text-white/70'
                     }`}>
                       {msg.text}
@@ -250,7 +250,7 @@ export default function LandingPage() {
               { icon: '🎯', title: 'Crea promos automáticas', desc: 'Detecta días lentos y lanza descuentos para llenarlos.' },
               { icon: '🔔', title: 'Detecta clientes inactivos', desc: 'Recupera clientes que no han vuelto con campañas de reactivación.' },
             ].map((c) => (
-              <div key={c.title} className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-amber-500/20 transition-colors">
+              <div key={c.title} className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-blue-500/20 transition-colors">
                 <span className="text-xl shrink-0">{c.icon}</span>
                 <div>
                   <p className="text-[14px] font-semibold mb-0.5">{c.title}</p>
@@ -262,17 +262,17 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/[0.07] px-3.5 py-1.5 mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/80">Demo en vivo disponible</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/[0.07] px-3.5 py-1.5 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            <span className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/80">Demo en vivo disponible</span>
           </div>
-          <p className="text-white/35 text-[13px]">Prueba el agente real en el botón amber abajo a la derecha →</p>
+          <p className="text-white/35 text-[13px]">Prueba el agente real en el botón azul abajo a la derecha →</p>
         </div>
       </section>
 
       {/* ── 5. TIPOS DE NEGOCIO ──────────────────────────── */}
       <section className="px-4 py-20 max-w-5xl mx-auto">
-        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-3 text-center">
+        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-3 text-center">
           Para todo tipo de local
         </p>
         <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight text-center mb-12">
@@ -286,7 +286,7 @@ export default function LandingPage() {
             { icon: '💅', label: 'Salones de uñas', desc: 'Nail art, gel, acrílico. Reservas por técnica y por especialista.' },
             { icon: '🖋️', label: 'Estudios de tatuajes', desc: 'Consultas, depósitos y agenda de sesiones largas con artistas.' },
           ].map((ind) => (
-            <div key={ind.label} className="p-[5px] rounded-2xl bg-white/[0.04] border border-white/[0.07] hover:border-amber-500/20 transition-colors group cursor-default">
+            <div key={ind.label} className="p-[5px] rounded-2xl bg-white/[0.04] border border-white/[0.07] hover:border-blue-500/20 transition-colors group cursor-default">
               <div className="rounded-[calc(1rem-2px)] bg-[#111010] px-5 py-6 h-full flex flex-col shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
                 <span className="text-3xl mb-3 block">{ind.icon}</span>
                 <p className="text-[14px] font-semibold mb-1.5">{ind.label}</p>
@@ -299,7 +299,7 @@ export default function LandingPage() {
 
       {/* ── 6. BENEFICIOS ────────────────────────────────── */}
       <section className="px-4 py-28 max-w-5xl mx-auto">
-        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-3 text-center">
+        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-3 text-center">
           Por qué los negocios eligen Gestai
         </p>
         <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight text-center mb-14">
@@ -312,7 +312,7 @@ export default function LandingPage() {
               metric: '+60%',
               label: 'Más reservas',
               desc: 'Tu agente atiende las 24 horas. Los clientes reservan cuando quieren, sin esperar que contestes.',
-              color: 'text-amber-400',
+              color: 'text-blue-400',
             },
             {
               metric: '−3h',
@@ -383,7 +383,7 @@ export default function LandingPage() {
               <div className="flex flex-col gap-3">
                 <Link
                   href="/productos"
-                  className="group flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-amber-500/20 transition-colors"
+                  className="group flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-blue-500/20 transition-colors"
                 >
                   <div>
                     <p className="text-[14px] font-semibold mb-0.5">Ver marketplace</p>
@@ -393,11 +393,11 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   href="#contacto"
-                  className="group flex items-center justify-between px-5 py-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 hover:border-amber-500/40 transition-colors"
+                  className="group flex items-center justify-between px-5 py-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 transition-colors"
                 >
                   <div>
-                    <p className="text-[14px] font-semibold text-amber-400 mb-0.5">Publicar mi negocio</p>
-                    <p className="text-[12px] text-amber-400/50">Comienza hoy, sin costo inicial</p>
+                    <p className="text-[14px] font-semibold text-blue-400 mb-0.5">Publicar mi negocio</p>
+                    <p className="text-[12px] text-blue-400/50">Comienza hoy, sin costo inicial</p>
                   </div>
                   <ArrowRight />
                 </Link>
@@ -441,7 +441,7 @@ export default function LandingPage() {
 
       {/* ── 9. PRICING ───────────────────────────────────── */}
       <section className="px-4 py-28 max-w-5xl mx-auto">
-        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/70 mb-3 text-center">Planes</p>
+        <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/70 mb-3 text-center">Planes</p>
         <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight text-center mb-4">Simple y transparente</h2>
         <p className="text-white/40 text-center text-[15px] mb-14">Sin costos ocultos. Cancela cuando quieras. Soporte real incluido.</p>
 
@@ -496,11 +496,11 @@ export default function LandingPage() {
           ].map((plan) => (
             <div
               key={plan.name}
-              className={`p-[6px] rounded-[2rem] ${plan.highlight ? 'bg-amber-500/10 border border-amber-500/30' : 'bg-white/[0.04] border border-white/[0.08]'}`}
+              className={`p-[6px] rounded-[2rem] ${plan.highlight ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-white/[0.04] border border-white/[0.08]'}`}
             >
               <div className="rounded-[calc(2rem-6px)] bg-[#111010] px-7 py-8 h-full flex flex-col shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
                 {plan.highlight && (
-                  <span className="inline-flex w-fit px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider mb-4">Más popular</span>
+                  <span className="inline-flex w-fit px-2.5 py-1 rounded-full bg-blue-500/15 border border-blue-500/25 text-blue-400 text-[10px] font-bold uppercase tracking-wider mb-4">Más popular</span>
                 )}
                 <p className="text-[15px] font-semibold text-white/60 mb-1">{plan.name}</p>
                 <p className="text-[2rem] font-bold leading-none mb-0.5">{plan.price}</p>
@@ -515,7 +515,7 @@ export default function LandingPage() {
                 </ul>
                 <Link
                   href={plan.href}
-                  className={`w-full py-2.5 rounded-2xl text-[13px] font-semibold text-center transition-colors ${plan.highlight ? 'bg-amber-500 hover:bg-amber-400 text-[#080706]' : 'bg-white/[0.06] hover:bg-white/[0.10] text-white/70'}`}
+                  className={`w-full py-2.5 rounded-2xl text-[13px] font-semibold text-center transition-colors ${plan.highlight ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-white/[0.06] hover:bg-white/[0.10] text-white/70'}`}
                 >
                   {plan.cta}
                 </Link>
@@ -527,16 +527,16 @@ export default function LandingPage() {
 
       {/* ── 10. FINAL CTA ────────────────────────────────── */}
       <section id="contacto" className="px-4 py-20 max-w-5xl mx-auto">
-        <div className="p-[6px] rounded-[2rem] bg-amber-500/[0.08] border border-amber-500/25">
+        <div className="p-[6px] rounded-[2rem] bg-blue-500/[0.08] border border-blue-500/25">
           <div className="rounded-[calc(2rem-6px)] bg-[#0f0e0d] px-8 sm:px-14 py-14 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/[0.07] px-3 py-1 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/80">Sin compromiso</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/[0.07] px-3 py-1 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+              <span className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/80">Sin compromiso</span>
             </div>
             <h2 className="text-[2rem] sm:text-[2.6rem] font-bold tracking-tight mb-4 leading-snug">
               Convierte tu local en
               <br />
-              <span className="text-amber-400">un negocio inteligente.</span>
+              <span className="text-blue-400">un negocio inteligente.</span>
             </h2>
             <p className="text-white/40 text-[15px] max-w-md mx-auto mb-8">
               Agenda una demo gratuita de 20 minutos. Te mostramos cómo funciona con tu negocio real, sin ventas agresivas.
@@ -544,13 +544,13 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/register"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-full text-[14px] active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full text-[14px] active:scale-[0.97] transition-all"
               >
                 Solicitar demo gratuita
               </Link>
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/[0.14] hover:border-amber-500/30 rounded-full text-[14px] text-white/50 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/[0.14] hover:border-blue-500/30 rounded-full text-[14px] text-white/50 hover:text-white transition-all"
               >
                 Ya tengo cuenta
               </Link>

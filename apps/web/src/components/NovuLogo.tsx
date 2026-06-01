@@ -32,7 +32,7 @@ export default function NovuLogo({ height = 32, wordmark = false, subtitle, subt
         <span className="flex flex-col leading-none">
           <span
             className={unbounded.className}
-            style={{ fontSize, fontWeight: 500, letterSpacing: '0.01em', lineHeight: 1, color: '#0a0f1e' }}
+            style={{ fontSize, fontWeight: 500, letterSpacing: '0.01em', lineHeight: 1, color: 'inherit' }}
           >
             gestai
           </span>
