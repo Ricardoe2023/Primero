@@ -115,7 +115,7 @@ const EXTRACT_TOOL: Anthropic.Tool = {
 }
 
 function isBookingConfirmation(text: string): boolean {
-  return /reserva|cita.*confirm|confirm.*cita|quedó.*agend|agend.*quedó|nos vemos|¡listo|todo listo/i.test(text)
+  return /reserva|cita.*confirm|confirm.*cita|quedó.*agend|agend.*quedó|nos vemos|¡listo|todo listo|agendando|agendad[ao]|confirmad[ao]|registrad[ao]|guardad[ao]|de una|ya quedó|está confirmad|cita está|hora está/i.test(text)
 }
 
 async function sendWhatsApp(phone: string, message: string) {
