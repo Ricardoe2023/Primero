@@ -114,7 +114,7 @@ export default function ClientesPage() {
   return (
     <div className="px-4 sm:px-8 py-6 sm:py-8 max-w-3xl">
       <div className="mb-6">
-        <p className="text-[13px] text-amber-400/70 font-medium mb-0.5">Dashboard</p>
+        <p className="text-[13px] text-blue-400/70 font-medium mb-0.5">Dashboard</p>
         <h1 className="text-[22px] font-semibold text-white">Clientes</h1>
       </div>
 
@@ -128,12 +128,12 @@ export default function ClientesPage() {
             placeholder="Buscar por nombre o teléfono…"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-9 pr-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-9 pr-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
           />
         </div>
         {!showForm && (
           <button onClick={() => setShowForm(true)}
-            className="shrink-0 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150">
+            className="shrink-0 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150">
             + Agregar
           </button>
         )}
@@ -149,7 +149,7 @@ export default function ClientesPage() {
                 type="text" autoFocus placeholder="Ej. Juan Pérez" value={form.name}
                 onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                 onKeyDown={e => e.key === 'Enter' && handleAdd()}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -157,7 +157,7 @@ export default function ClientesPage() {
               <input
                 type="tel" placeholder="+56 9 1234 5678" value={form.phone}
                 onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -165,7 +165,7 @@ export default function ClientesPage() {
               <input
                 type="email" placeholder="juan@ejemplo.com" value={form.email}
                 onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div className="sm:col-span-2">
@@ -173,14 +173,14 @@ export default function ClientesPage() {
               <textarea
                 placeholder="Alergias, preferencias, etc." value={form.notes} rows={2}
                 onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 resize-none"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 resize-none"
               />
             </div>
           </div>
           {saveError && <p className="text-[13px] text-red-400">{saveError}</p>}
           <div className="flex gap-3 pt-1">
             <button onClick={handleAdd} disabled={saving || !form.name.trim()}
-              className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
               {saving ? 'Guardando…' : 'Agregar cliente'}
             </button>
             <button onClick={() => { setShowForm(false); setForm(EMPTY_FORM); setSaveError(null) }}
@@ -202,11 +202,11 @@ export default function ClientesPage() {
           {filtered.map(c => (
             <Link key={c.id} href={`/dashboard/clientes/${c.id}`}
               className="flex items-center gap-4 px-5 py-4 bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] rounded-2xl transition-colors duration-150 group">
-              <div className="w-10 h-10 rounded-full bg-amber-500/15 border border-amber-500/25 flex items-center justify-center shrink-0">
-                <span className="text-[13px] font-semibold text-amber-400">{initials(c.name)}</span>
+              <div className="w-10 h-10 rounded-full bg-amber-500/15 border border-blue-500/25 flex items-center justify-center shrink-0">
+                <span className="text-[13px] font-semibold text-blue-400">{initials(c.name)}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-medium text-white truncate group-hover:text-amber-400 transition-colors duration-150">{c.name}</p>
+                <p className="text-[14px] font-medium text-white truncate group-hover:text-blue-400 transition-colors duration-150">{c.name}</p>
                 <p className="text-[12px] text-white/35 truncate">
                   {c.phone ?? 'Sin teléfono'}
                   {c.last_visit ? ` · Última visita: ${formatDate(c.last_visit)}` : ''}

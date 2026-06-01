@@ -58,7 +58,7 @@ async function fetchBarbershop(slug: string): Promise<Barbershop | null> {
 
 export default function MarketplacePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#080706]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#060f1a]" />}>
       <MarketplaceInner />
     </Suspense>
   )
@@ -118,10 +118,10 @@ function MarketplaceInner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080706] text-[#fafaf9] flex flex-col">
+    <div className="min-h-screen bg-[#060f1a] text-[#fafaf9] flex flex-col">
 
       {/* Sticky Header */}
-      <header className="sticky top-0 z-40 bg-[#080706]/90 backdrop-blur-xl border-b border-white/[0.06] shrink-0">
+      <header className="sticky top-0 z-40 bg-[#060f1a]/90 backdrop-blur-xl border-b border-white/[0.06] shrink-0">
         <div className="max-w-full px-4 sm:px-6 py-3.5 flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <NovuLogo height={20} wordmark />
@@ -131,17 +131,17 @@ function MarketplaceInner() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar barbería..."
-              className="flex-1 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.09] text-white text-[13px] placeholder-white/25 focus:outline-none focus:border-amber-500/50 transition-colors duration-150 min-w-0"
+              className="flex-1 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.09] text-white text-[13px] placeholder-white/25 focus:outline-none focus:border-blue-500/50 transition-colors duration-150 min-w-0"
             />
             <input
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="Ciudad..."
-              className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.09] text-white text-[13px] placeholder-white/25 focus:outline-none focus:border-amber-500/50 transition-colors duration-150 w-28 hidden sm:block"
+              className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.09] text-white text-[13px] placeholder-white/25 focus:outline-none focus:border-blue-500/50 transition-colors duration-150 w-28 hidden sm:block"
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-xl text-[13px] shrink-0 active:scale-[0.97] transition-colors duration-150"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-[#060f1a] font-semibold rounded-xl text-[13px] shrink-0 active:scale-[0.97] transition-colors duration-150"
             >
               Buscar
             </button>
@@ -154,7 +154,7 @@ function MarketplaceInner() {
       <div className="flex flex-1 overflow-hidden" style={{ height: 'calc(100dvh - 57px)' }}>
 
         {/* ── Floating Sidebar ── */}
-        <aside className={`${selected ? 'hidden sm:flex' : 'flex'} w-full sm:w-[300px] shrink-0 overflow-y-auto border-r border-white/[0.06] bg-[#080706] flex-col`}>
+        <aside className={`${selected ? 'hidden sm:flex' : 'flex'} w-full sm:w-[300px] shrink-0 overflow-y-auto border-r border-white/[0.06] bg-[#060f1a] flex-col`}>
           <div className="p-3 space-y-1.5">
             {loadingShops ? (
               Array.from({ length: 6 }).map((_, i) => (
@@ -171,7 +171,7 @@ function MarketplaceInner() {
                   onClick={() => selectShop(shop)}
                   className={`w-full text-left p-[5px] rounded-2xl border transition-all duration-200 ${
                     selected?.id === shop.id
-                      ? 'bg-amber-500/[0.08] border-amber-500/30'
+                      ? 'bg-blue-600/[0.08] border-blue-500/30'
                       : 'bg-white/[0.03] border-white/[0.07] hover:border-white/[0.14] hover:bg-white/[0.05]'
                   }`}
                 >
@@ -195,7 +195,7 @@ function MarketplaceInner() {
                       <p className="text-[13px] font-semibold text-white truncate">{shop.name}</p>
                       <p className="text-[11px] text-white/35 truncate mt-0.5">{shop.neighborhood}</p>
                       <div className="flex items-center gap-1 mt-1">
-                        <span className="text-amber-400 text-[10px]">★</span>
+                        <span className="text-blue-400 text-[10px]">★</span>
                         <span className="text-[11px] text-white/60">{shop.rating.toFixed(1)}</span>
                         <span className="text-white/20 text-[10px]">({shop.reviewCount})</span>
                       </div>
@@ -211,7 +211,7 @@ function MarketplaceInner() {
         <main className={`${selected ? 'flex' : 'hidden sm:flex'} flex-1 overflow-y-auto flex-col`}>
           {loadingDetail ? (
             <div className="h-full flex items-center justify-center">
-              <div className="w-8 h-8 rounded-full border-2 border-amber-500/30 border-t-amber-500 animate-spin" />
+              <div className="w-8 h-8 rounded-full border-2 border-blue-500/30 border-t-amber-500 animate-spin" />
             </div>
           ) : !selected ? (
             <div className="h-full flex flex-col items-center justify-center gap-4 text-center px-8">
@@ -258,9 +258,9 @@ function MarketplaceInner() {
                   href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selected.name}, ${selected.address}, ${selected.neighborhood}, ${selected.city}, Chile`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#080706]/70 hover:bg-[#080706]/90 backdrop-blur-md border border-white/[0.14] hover:border-white/25 text-white text-[12px] font-medium transition-all duration-150 group"
+                  className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#060f1a]/70 hover:bg-[#060f1a]/90 backdrop-blur-md border border-white/[0.14] hover:border-white/25 text-white text-[12px] font-medium transition-all duration-150 group"
                 >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
                     <circle cx="12" cy="9" r="2.5" />
                   </svg>
@@ -277,14 +277,14 @@ function MarketplaceInner() {
                   <h1 className="text-2xl font-bold tracking-tight mb-1">{selected.name}</h1>
                   <p className="text-white/40 text-[14px]">{selected.address} · {selected.neighborhood}, {selected.city}</p>
                   {selected.phone && (
-                    <a href={`tel:${selected.phone}`} className="text-amber-400/60 hover:text-amber-400 text-[13px] transition-colors duration-150 mt-0.5 block">
+                    <a href={`tel:${selected.phone}`} className="text-blue-400/60 hover:text-blue-400 text-[13px] transition-colors duration-150 mt-0.5 block">
                       {selected.phone}
                     </a>
                   )}
                   {selected.specialty && (
                     <div className="flex flex-wrap gap-1.5 mt-3">
                       {selected.specialty.split(',').map((tag) => (
-                        <span key={tag} className="px-2.5 py-1 rounded-full bg-amber-500/[0.08] border border-amber-500/20 text-[11px] text-amber-400/80 font-medium">
+                        <span key={tag} className="px-2.5 py-1 rounded-full bg-blue-600/[0.08] border border-blue-500/20 text-[11px] text-blue-400/80 font-medium">
                           {tag.trim()}
                         </span>
                       ))}
@@ -296,7 +296,7 @@ function MarketplaceInner() {
                 </div>
                 <div className="shrink-0 text-right">
                   <div className="flex items-center gap-1 justify-end">
-                    <span className="text-amber-400 text-[14px]">★</span>
+                    <span className="text-blue-400 text-[14px]">★</span>
                     <span className="font-semibold text-white text-[16px]">{selected.rating.toFixed(1)}</span>
                   </div>
                   <p className="text-white/30 text-[12px]">{selected.reviewCount} reseñas</p>
@@ -313,7 +313,7 @@ function MarketplaceInner() {
                         key={svc.id}
                         className="p-[5px] rounded-2xl bg-white/[0.03] border border-white/[0.07]"
                       >
-                        <div className="rounded-[calc(1rem-5px)] bg-[#111010] px-4 py-3.5 flex items-center justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+                        <div className="rounded-[calc(1rem-5px)] bg-[#0f1e35] px-4 py-3.5 flex items-center justify-between shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
                           <div>
                             <p className="text-[14px] font-semibold text-white">{svc.name}</p>
                             {svc.description && (
@@ -321,7 +321,7 @@ function MarketplaceInner() {
                             )}
                             <p className="text-[12px] text-white/30 mt-1">{svc.duration} min</p>
                           </div>
-                          <span className="text-[15px] font-bold text-amber-400 shrink-0 ml-4">
+                          <span className="text-[15px] font-bold text-blue-400 shrink-0 ml-4">
                             ${svc.price.toLocaleString()}
                           </span>
                         </div>
@@ -332,7 +332,7 @@ function MarketplaceInner() {
               )}
 
               {/* Agendar cita CTA */}
-              <div className="p-[6px] rounded-[1.5rem] bg-amber-500/[0.07] border border-amber-500/[0.15] mb-8">
+              <div className="p-[6px] rounded-[1.5rem] bg-blue-600/[0.07] border border-blue-500/[0.15] mb-8">
                 <div className="rounded-[calc(1.5rem-6px)] bg-[#0e0b05] px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[inset_0_1px_1px_rgba(251,191,36,0.04)]">
                   <div>
                     <p className="text-[16px] font-semibold text-white">¿Listo para tu corte?</p>
@@ -340,11 +340,11 @@ function MarketplaceInner() {
                   </div>
                   <Link
                     href={`/booking/${selected.slug}`}
-                    className="group inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-full text-[14px] active:scale-[0.97] shrink-0"
+                    className="group inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-[#060f1a] font-semibold rounded-full text-[14px] active:scale-[0.97] shrink-0"
                     style={{ transition: 'transform 160ms cubic-bezier(0.16,1,0.3,1), background-color 150ms' }}
                   >
                     Agendar cita
-                    <span className="w-5 h-5 rounded-full bg-[#080706]/15 flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-150">
+                    <span className="w-5 h-5 rounded-full bg-[#060f1a]/15 flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-150">
                       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                         <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -361,7 +361,7 @@ function MarketplaceInner() {
                 <div className="p-[5px] rounded-2xl bg-white/[0.03] border border-white/[0.07] mb-4">
                   <form
                     onSubmit={submitReview}
-                    className="rounded-[calc(1rem-5px)] bg-[#111010] px-5 py-5 space-y-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]"
+                    className="rounded-[calc(1rem-5px)] bg-[#0f1e35] px-5 py-5 space-y-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]"
                   >
                     <p className="text-[13px] font-semibold text-white/70">Deja tu reseña</p>
 
@@ -372,7 +372,7 @@ function MarketplaceInner() {
                           key={star}
                           type="button"
                           onClick={() => setReviewRating(star)}
-                          className={`text-[20px] transition-colors duration-100 ${star <= reviewRating ? 'text-amber-400' : 'text-white/15'}`}
+                          className={`text-[20px] transition-colors duration-100 ${star <= reviewRating ? 'text-blue-400' : 'text-white/15'}`}
                         >
                           ★
                         </button>
@@ -385,13 +385,13 @@ function MarketplaceInner() {
                       required
                       rows={3}
                       placeholder="Comparte tu experiencia..."
-                      className="w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-amber-500/50 transition-colors duration-150 resize-none"
+                      className="w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-blue-500/50 transition-colors duration-150 resize-none"
                     />
 
                     <button
                       type="submit"
                       disabled={reviewSubmitting}
-                      className="px-5 py-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-[#080706] font-semibold rounded-xl text-[13px] active:scale-[0.97] transition-colors duration-150"
+                      className="px-5 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-[#060f1a] font-semibold rounded-xl text-[13px] active:scale-[0.97] transition-colors duration-150"
                     >
                       {reviewSubmitting ? 'Enviando...' : 'Publicar reseña'}
                     </button>
@@ -403,13 +403,13 @@ function MarketplaceInner() {
                   <div className="space-y-2">
                     {selected.reviews.map((rev) => (
                       <div key={rev.id} className="p-[5px] rounded-2xl bg-white/[0.03] border border-white/[0.07]">
-                        <div className="rounded-[calc(1rem-5px)] bg-[#111010] px-4 py-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+                        <div className="rounded-[calc(1rem-5px)] bg-[#0f1e35] px-4 py-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-[13px] font-semibold text-white/80">
                               {rev.user.firstName} {rev.user.lastName}
                             </p>
                             <div className="flex items-center gap-1">
-                              <span className="text-amber-400 text-[11px]">{'★'.repeat(rev.rating)}</span>
+                              <span className="text-blue-400 text-[11px]">{'★'.repeat(rev.rating)}</span>
                             </div>
                           </div>
                           <p className="text-[13px] text-white/45 leading-relaxed">{rev.comment}</p>

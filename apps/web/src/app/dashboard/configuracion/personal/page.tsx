@@ -118,7 +118,7 @@ export default function PersonalPage() {
       <div className="flex items-center justify-between mb-6">
         <p className="text-[13px] text-white/35">Profesionales y colaboradores del negocio.</p>
         {!showForm && (
-          <button onClick={openAdd} className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150">
+          <button onClick={openAdd} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150">
             + Agregar
           </button>
         )}
@@ -133,24 +133,24 @@ export default function PersonalPage() {
               <label className="block text-[12px] text-white/40 mb-1.5">Nombre *</label>
               <input type="text" placeholder="Ej. Carlos López" value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50" />
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50" />
             </div>
             <div>
               <label className="block text-[12px] text-white/40 mb-1.5">Cargo / Rol</label>
               <input type="text" placeholder="Ej. Barbero Senior" value={form.role}
                 onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50" />
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50" />
             </div>
           </div>
           <div>
             <label className="block text-[12px] text-white/40 mb-1.5">Especialidades (separadas por coma)</label>
             <input type="text" placeholder="Ej. Fade, Navaja, Colorimetría" value={form.specialties}
               onChange={(e) => setForm((f) => ({ ...f, specialties: e.target.value }))}
-              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50" />
+              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50" />
           </div>
           <div className="flex gap-3 pt-1">
             <button onClick={handleSave} disabled={saving || !form.name.trim()}
-              className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
               {saving ? 'Guardando…' : editingId ? 'Guardar cambios' : 'Agregar'}
             </button>
             <button onClick={cancelForm} className="px-5 py-2 rounded-xl text-[13px] text-white/40 hover:text-white/60 transition-colors duration-150">
@@ -179,8 +179,8 @@ export default function PersonalPage() {
                 {s.avatar_url ? (
                   <img src={s.avatar_url} alt={s.name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full bg-amber-500/15 border border-amber-500/25 flex items-center justify-center">
-                    <span className="text-[15px] font-semibold text-amber-400">{s.name.charAt(0).toUpperCase()}</span>
+                  <div className="w-full h-full bg-amber-500/15 border border-blue-500/25 flex items-center justify-center">
+                    <span className="text-[15px] font-semibold text-blue-400">{s.name.charAt(0).toUpperCase()}</span>
                   </div>
                 )}
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

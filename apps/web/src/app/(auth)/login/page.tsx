@@ -37,7 +37,7 @@ function LoginForm() {
     <div className="p-[6px] rounded-[2rem] bg-white/[0.04] border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
       <form
         onSubmit={handleSubmit}
-        className="rounded-[calc(2rem-6px)] bg-[#111010] px-7 py-8 space-y-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
+        className="rounded-[calc(2rem-6px)] bg-[#0f1e35] px-7 py-8 space-y-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
       >
         {error && (
           <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-[13px] rounded-xl px-4 py-3">
@@ -52,7 +52,7 @@ function LoginForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none focus:border-amber-500/60 focus:bg-white/[0.06] transition-all duration-150"
+            className="w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none focus:border-blue-500/60 focus:bg-white/[0.06] transition-all duration-150"
             placeholder="tu@email.com"
           />
         </div>
@@ -64,7 +64,7 @@ function LoginForm() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none focus:border-amber-500/60 focus:bg-white/[0.06] transition-all duration-150"
+            className="w-full bg-white/[0.04] border border-white/[0.09] rounded-xl px-4 py-3 text-white text-[14px] placeholder-white/20 focus:outline-none focus:border-blue-500/60 focus:bg-white/[0.06] transition-all duration-150"
             placeholder="••••••••"
           />
         </div>
@@ -72,7 +72,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-[#080706] font-semibold py-3 rounded-xl text-[15px] active:scale-[0.98]"
+          className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white font-semibold py-3 rounded-xl text-[15px] active:scale-[0.98]"
           style={{ transition: 'transform 160ms cubic-bezier(0.16,1,0.3,1), background-color 150ms' }}
         >
           {loading ? 'Ingresando...' : 'Iniciar sesión'}
@@ -80,7 +80,7 @@ function LoginForm() {
 
         <p className="text-center text-[13px] text-white/35">
           ¿No tienes cuenta?{' '}
-          <Link href="/register" className="text-amber-400/80 hover:text-amber-400 transition-colors">
+          <Link href="/register" className="text-blue-400/80 hover:text-blue-400 transition-colors">
             Regístrate
           </Link>
         </p>
@@ -91,9 +91,9 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#080706] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#060f1a] flex items-center justify-center px-4">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[500px] rounded-full bg-amber-600/[0.05] blur-[100px]" />
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[500px] rounded-full bg-blue-600/[0.10] blur-[100px]" />
       </div>
 
       <div className="w-full max-w-sm relative animate-fade-up">

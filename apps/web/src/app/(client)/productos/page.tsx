@@ -29,7 +29,7 @@ type SortKey = 'recientes' | 'precio_asc' | 'precio_desc'
 function ProductCard({ product, onAdd }: { product: Product; onAdd: (p: Product) => void }) {
   return (
     <div className="group p-[5px] rounded-[1.5rem] bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.13] transition-colors duration-200 flex flex-col">
-      <div className="rounded-[calc(1.5rem-5px)] overflow-hidden flex flex-col flex-1 bg-[#111010] shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+      <div className="rounded-[calc(1.5rem-5px)] overflow-hidden flex flex-col flex-1 bg-[#0f1e35] shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
 
         {/* Image */}
         <div className="h-44 relative flex items-center justify-center overflow-hidden bg-white/[0.03]">
@@ -53,7 +53,7 @@ function ProductCard({ product, onAdd }: { product: Product; onAdd: (p: Product)
         <div className="px-4 py-4 flex flex-col flex-1">
           <div className="flex-1">
             {product.brand && (
-              <p className="text-[10px] font-semibold text-amber-400/60 uppercase tracking-[0.12em] mb-1">{product.brand}</p>
+              <p className="text-[10px] font-semibold text-blue-400/60 uppercase tracking-[0.12em] mb-1">{product.brand}</p>
             )}
             <h3 className="text-[14px] font-semibold text-white leading-snug mb-1 line-clamp-2">{product.name}</h3>
             {product.description && (
@@ -69,7 +69,7 @@ function ProductCard({ product, onAdd }: { product: Product; onAdd: (p: Product)
             <button
               onClick={() => onAdd(product)}
               disabled={product.stock === 0}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-30 disabled:cursor-not-allowed text-black font-semibold rounded-full text-[12px] active:scale-95 transition-all duration-150"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-black font-semibold rounded-full text-[12px] active:scale-95 transition-all duration-150"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M5 12h14" />
@@ -88,7 +88,7 @@ function CartDrawer({ items, onRemove, onClose }: { items: CartItem[]; onRemove:
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <button className="flex-1 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="w-full max-w-sm bg-[#0e0d0c] border-l border-white/[0.08] flex flex-col h-full shadow-2xl">
+      <div className="w-full max-w-sm bg-[#060f1a] border-l border-white/[0.08] flex flex-col h-full shadow-2xl">
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.07]">
           <p className="text-[16px] font-semibold text-white">Tu carrito</p>
           <button onClick={onClose} className="w-7 h-7 rounded-full bg-white/[0.07] hover:bg-white/[0.12] flex items-center justify-center transition-colors">
@@ -127,7 +127,7 @@ function CartDrawer({ items, onRemove, onClose }: { items: CartItem[]; onRemove:
               <span className="text-white/50">Total</span>
               <span className="font-bold text-white">${total.toLocaleString('es-CL')}</span>
             </div>
-            <button className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-full text-[14px] active:scale-[0.98] transition-all duration-150">
+            <button className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-black font-semibold rounded-full text-[14px] active:scale-[0.98] transition-all duration-150">
               Ir a pagar
             </button>
           </div>
@@ -198,9 +198,9 @@ function ProductosInner() {
   const cartCount = cart.reduce((s, i) => s + i.qty, 0)
 
   return (
-    <div className="min-h-screen bg-[#080706] text-white">
+    <div className="min-h-screen bg-[#060f1a] text-white">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-[#080706]/90 backdrop-blur-xl border-b border-white/[0.06]">
+      <header className="sticky top-0 z-40 bg-[#060f1a]/90 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <NovuLogo height={20} wordmark />
@@ -215,7 +215,7 @@ function ProductosInner() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar productos, marcas…"
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.09] text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-amber-500/50 transition-colors"
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.09] text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-blue-500/50 transition-colors"
             />
           </div>
 
@@ -223,11 +223,11 @@ function ProductosInner() {
           <select
             value={bizFilter}
             onChange={(e) => setBizFilter(e.target.value)}
-            className="hidden sm:block bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2 text-[13px] text-white focus:outline-none focus:border-amber-500/40 max-w-[160px]"
+            className="hidden sm:block bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2 text-[13px] text-white focus:outline-none focus:border-blue-500/40 max-w-[160px]"
           >
-            <option value="all" className="bg-[#111]">Todos los locales</option>
+            <option value="all" className="bg-[#0f1e35]">Todos los locales</option>
             {businesses.map((b) => (
-              <option key={b.id} value={b.id} className="bg-[#111]">{b.name}</option>
+              <option key={b.id} value={b.id} className="bg-[#0f1e35]">{b.name}</option>
             ))}
           </select>
 
@@ -235,11 +235,11 @@ function ProductosInner() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
-            className="hidden sm:block bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2 text-[13px] text-white focus:outline-none focus:border-amber-500/40"
+            className="hidden sm:block bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2 text-[13px] text-white focus:outline-none focus:border-blue-500/40"
           >
-            <option value="recientes" className="bg-[#111]">Más recientes</option>
-            <option value="precio_asc" className="bg-[#111]">Menor precio</option>
-            <option value="precio_desc" className="bg-[#111]">Mayor precio</option>
+            <option value="recientes" className="bg-[#0f1e35]">Más recientes</option>
+            <option value="precio_asc" className="bg-[#0f1e35]">Menor precio</option>
+            <option value="precio_desc" className="bg-[#0f1e35]">Mayor precio</option>
           </select>
 
           <Link href="/marketplace" className="hidden sm:block text-[13px] text-white/40 hover:text-white transition-colors ml-auto">
@@ -255,7 +255,7 @@ function ProductosInner() {
               <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] min-h-[18px] rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center px-1">
+              <span className="absolute -top-1 -right-1 min-w-[18px] min-h-[18px] rounded-full bg-blue-600 text-black text-[10px] font-bold flex items-center justify-center px-1">
                 {cartCount}
               </span>
             )}
@@ -283,9 +283,9 @@ function ProductosInner() {
             onChange={(e) => setBizFilter(e.target.value)}
             className="bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2 text-[12px] text-white focus:outline-none"
           >
-            <option value="all" className="bg-[#111]">Todos los locales</option>
+            <option value="all" className="bg-[#0f1e35]">Todos los locales</option>
             {businesses.map((b) => (
-              <option key={b.id} value={b.id} className="bg-[#111]">{b.name}</option>
+              <option key={b.id} value={b.id} className="bg-[#0f1e35]">{b.name}</option>
             ))}
           </select>
           <select
@@ -293,9 +293,9 @@ function ProductosInner() {
             onChange={(e) => setSort(e.target.value as SortKey)}
             className="bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2 text-[12px] text-white focus:outline-none"
           >
-            <option value="recientes" className="bg-[#111]">Más recientes</option>
-            <option value="precio_asc" className="bg-[#111]">Menor precio</option>
-            <option value="precio_desc" className="bg-[#111]">Mayor precio</option>
+            <option value="recientes" className="bg-[#0f1e35]">Más recientes</option>
+            <option value="precio_asc" className="bg-[#0f1e35]">Menor precio</option>
+            <option value="precio_desc" className="bg-[#0f1e35]">Mayor precio</option>
           </select>
         </div>
 
@@ -326,7 +326,7 @@ function ProductosInner() {
 
 export default function ProductosPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#080706]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#060f1a]" />}>
       <ProductosInner />
     </Suspense>
   )

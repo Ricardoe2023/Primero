@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 
-function GestaiIcon({ size = 36, color = '#f59e0b' }: { size?: number; color?: string }) {
+function GestaiIcon({ size = 36, color = '#3B82F6' }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size} viewBox="2 1 24 24" fill="none" aria-hidden>
       <path d="M8 20 Q14 8 20 20" stroke={color} strokeWidth="2.2" strokeLinecap="round" fill="none"/>
@@ -127,7 +127,7 @@ export default function BusinessBot({ businessId, businessName, selectedStaffNam
             className="p-[5px] rounded-[1.75rem] bg-white/[0.06] border border-white/[0.12] shadow-[0_24px_64px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl flex flex-col overflow-hidden"
             style={{ height: 'min(600px, calc(100dvh - 120px))' }}
           >
-            <div className="rounded-[calc(1.75rem-5px)] bg-[#0e0d0c] flex flex-col overflow-hidden h-full">
+            <div className="rounded-[calc(1.75rem-5px)] bg-[#060f1a] flex flex-col overflow-hidden h-full">
 
               {/* Header */}
               <div className="flex items-center gap-3 px-5 py-3.5 border-b border-white/[0.06] shrink-0">
@@ -156,7 +156,7 @@ export default function BusinessBot({ businessId, businessName, selectedStaffNam
                     <div
                       className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed ${
                         msg.from === 'user'
-                          ? 'bg-amber-500 text-[#080706] font-medium rounded-br-sm'
+                          ? 'bg-blue-600 text-white font-medium rounded-br-sm'
                           : 'bg-white/[0.07] border border-white/[0.08] text-white/85 rounded-bl-sm'
                       }`}
                     >
@@ -185,12 +185,12 @@ export default function BusinessBot({ businessId, businessName, selectedStaffNam
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Escribe tu consulta…"
-                  className="flex-1 bg-white/[0.05] border border-white/[0.09] rounded-xl px-3.5 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-amber-500/40 transition-colors duration-150"
+                  className="flex-1 bg-white/[0.05] border border-white/[0.09] rounded-xl px-3.5 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-blue-500/40 transition-colors duration-150"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || typing}
-                  className="w-10 h-10 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-30 text-[#080706] flex items-center justify-center shrink-0 active:scale-95 transition-all"
+                  className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-white flex items-center justify-center shrink-0 active:scale-95 transition-all"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z" />
@@ -200,7 +200,7 @@ export default function BusinessBot({ businessId, businessName, selectedStaffNam
 
               <div className="text-center pb-2.5">
                 <span className="text-[10px] text-white/15">Agente IA · powered by </span>
-                <span className="text-[10px] text-amber-500/40 font-medium">gestai</span>
+                <span className="text-[10px] text-blue-500/40 font-medium">gestai</span>
               </div>
             </div>
           </div>
@@ -213,7 +213,7 @@ export default function BusinessBot({ businessId, businessName, selectedStaffNam
         aria-label="Abrir asistente"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_28px_rgba(251,191,36,0.3)]"
         style={{
-          background: open ? '#1a1816' : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+          background: open ? '#1a1816' : 'linear-gradient(135deg, #3B82F6 0%, #d97706 100%)',
           border: open ? '1.5px solid rgba(255,255,255,0.10)' : 'none',
           transition: 'transform 200ms cubic-bezier(0.16,1,0.3,1), background 250ms',
         }}

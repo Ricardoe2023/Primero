@@ -298,8 +298,8 @@ export default function ClientDetailPage() {
       <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl px-5 py-5 mb-5">
         {!editingClient ? (
           <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-full bg-amber-500/15 border border-amber-500/25 flex items-center justify-center shrink-0">
-              <span className="text-[18px] font-semibold text-amber-400">{initials(client.name)}</span>
+            <div className="w-14 h-14 rounded-full bg-amber-500/15 border border-blue-500/25 flex items-center justify-center shrink-0">
+              <span className="text-[18px] font-semibold text-blue-400">{initials(client.name)}</span>
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-[20px] font-semibold text-white mb-0.5">{client.name}</h1>
@@ -323,34 +323,34 @@ export default function ClientDetailPage() {
                 <label className="block text-[12px] text-white/40 mb-1">Nombre *</label>
                 <input type="text" value={clientForm.name} autoFocus
                   onChange={e => setClientForm(f => ({ ...f, name: e.target.value }))}
-                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                 />
               </div>
               <div>
                 <label className="block text-[12px] text-white/40 mb-1">Teléfono</label>
                 <input type="tel" value={clientForm.phone}
                   onChange={e => setClientForm(f => ({ ...f, phone: e.target.value }))}
-                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                 />
               </div>
               <div>
                 <label className="block text-[12px] text-white/40 mb-1">Email</label>
                 <input type="email" value={clientForm.email}
                   onChange={e => setClientForm(f => ({ ...f, email: e.target.value }))}
-                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                 />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-[12px] text-white/40 mb-1">Notas</label>
                 <textarea value={clientForm.notes} rows={2}
                   onChange={e => setClientForm(f => ({ ...f, notes: e.target.value }))}
-                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50 resize-none"
+                  className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50 resize-none"
                 />
               </div>
             </div>
             <div className="flex gap-3">
               <button onClick={handleSaveClient} disabled={savingClient || !clientForm.name.trim()}
-                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold disabled:opacity-40 transition-colors duration-150">
+                className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold disabled:opacity-40 transition-colors duration-150">
                 {savingClient ? 'Guardando…' : 'Guardar'}
               </button>
               <button onClick={() => setEditingClient(false)}
@@ -367,7 +367,7 @@ export default function ClientDetailPage() {
         <h2 className="text-[15px] font-semibold text-white">Historial de visitas</h2>
         {!showVisitForm && (
           <button onClick={() => setShowVisitForm(true)}
-            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150">
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150">
             + Nueva visita
           </button>
         )}
@@ -382,7 +382,7 @@ export default function ClientDetailPage() {
               <label className="block text-[12px] text-white/40 mb-1.5">Fecha *</label>
               <input type="date" value={visitForm.date}
                 onChange={e => setVisitForm(f => ({ ...f, date: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                 style={{ colorScheme: 'dark' }}
               />
             </div>
@@ -390,20 +390,20 @@ export default function ClientDetailPage() {
               <label className="block text-[12px] text-white/40 mb-1.5">Tratamiento / servicio</label>
               <input type="text" placeholder="Ej. Corte + Barba" value={visitForm.treatment}
                 onChange={e => setVisitForm(f => ({ ...f, treatment: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div className="sm:col-span-2">
               <label className="block text-[12px] text-white/40 mb-1.5">Notas de la visita</label>
               <textarea placeholder="Observaciones, productos usados, etc." value={visitForm.notes} rows={2}
                 onChange={e => setVisitForm(f => ({ ...f, notes: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 resize-none"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 resize-none"
               />
             </div>
           </div>
           <div className="flex gap-3 pt-1">
             <button onClick={handleAddVisit} disabled={savingVisit || !visitForm.date}
-              className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold disabled:opacity-40 transition-colors duration-150">
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold disabled:opacity-40 transition-colors duration-150">
               {savingVisit ? 'Guardando…' : 'Agregar visita'}
             </button>
             <button onClick={() => { setShowVisitForm(false); setVisitForm(EMPTY_VISIT) }}
@@ -437,7 +437,7 @@ export default function ClientDetailPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-medium text-white capitalize">{formatDate(v.date)}</p>
-                    {v.treatment && <p className="text-[12px] text-amber-400/70 mt-0.5">{v.treatment}</p>}
+                    {v.treatment && <p className="text-[12px] text-blue-400/70 mt-0.5">{v.treatment}</p>}
                     {v.notes && !isOpen && <p className="text-[12px] text-white/30 truncate mt-0.5">{v.notes}</p>}
                     <p className="text-[11px] text-white/25 mt-0.5">{v.photos.length} {v.photos.length === 1 ? 'foto' : 'fotos'}</p>
                   </div>
@@ -458,7 +458,7 @@ export default function ClientDetailPage() {
                             <label className="block text-[12px] text-white/40 mb-1">Fecha *</label>
                             <input type="date" value={editVisitForm.date}
                               onChange={e => setEditVisitForm(f => ({ ...f, date: e.target.value }))}
-                              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                               style={{ colorScheme: 'dark' }}
                             />
                           </div>
@@ -466,20 +466,20 @@ export default function ClientDetailPage() {
                             <label className="block text-[12px] text-white/40 mb-1">Tratamiento</label>
                             <input type="text" placeholder="Ej. Corte + Barba" value={editVisitForm.treatment}
                               onChange={e => setEditVisitForm(f => ({ ...f, treatment: e.target.value }))}
-                              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
                             />
                           </div>
                           <div className="sm:col-span-2">
                             <label className="block text-[12px] text-white/40 mb-1">Notas</label>
                             <textarea value={editVisitForm.notes} rows={2}
                               onChange={e => setEditVisitForm(f => ({ ...f, notes: e.target.value }))}
-                              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 resize-none"
+                              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 resize-none"
                             />
                           </div>
                         </div>
                         <div className="flex gap-3">
                           <button onClick={handleSaveEditVisit} disabled={savingEditVisit || !editVisitForm.date}
-                            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold disabled:opacity-40 transition-colors duration-150">
+                            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold disabled:opacity-40 transition-colors duration-150">
                             {savingEditVisit ? 'Guardando…' : 'Guardar'}
                           </button>
                           <button onClick={() => setEditingVisitId(null)}
@@ -562,13 +562,13 @@ export default function ClientDetailPage() {
         {consentError && <p className="text-[12px] text-red-400 mb-3">{consentError}</p>}
 
         {consentLink && (
-          <div className="bg-amber-500/[0.06] border border-amber-500/20 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
+          <div className="bg-blue-600/[0.06] border border-blue-500/20 rounded-xl px-4 py-3 mb-4 flex items-center gap-3">
             <div className="flex-1 min-w-0">
-              <p className="text-[12px] text-amber-400/70 mb-0.5">Enviado por WhatsApp. También puedes copiar el link:</p>
+              <p className="text-[12px] text-blue-400/70 mb-0.5">Enviado por WhatsApp. También puedes copiar el link:</p>
               <p className="text-[11px] text-white/30 truncate font-mono">{consentLink}</p>
             </div>
             <button onClick={() => copyConsentLink(consentLink)}
-              className="shrink-0 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-[12px] font-semibold transition-colors duration-150">
+              className="shrink-0 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-black text-[12px] font-semibold transition-colors duration-150">
               {copiedConsent ? '✓' : 'Copiar'}
             </button>
           </div>
@@ -619,7 +619,7 @@ export default function ClientDetailPage() {
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                      <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-400">
                         Pendiente
                       </span>
                       <button onClick={() => copyConsentLink(`https://gestai-app.vercel.app/consentimiento/${c.token}`)}

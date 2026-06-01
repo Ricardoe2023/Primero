@@ -51,7 +51,7 @@ export default function NearbyMap() {
   }
 
   return (
-    <div className="mt-5 rounded-xl overflow-hidden border border-amber-500/20 ring-1 ring-amber-500/10" style={{ height: 170 }}>
+    <div className="mt-5 rounded-xl overflow-hidden border border-blue-500/20 ring-1 ring-blue-600/10" style={{ height: 170 }}>
       <iframe
         src={mapSrc}
         width="100%"

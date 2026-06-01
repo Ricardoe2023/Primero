@@ -108,7 +108,7 @@ export default function ServiciosConfigPage() {
       <div className="flex items-center justify-between mb-6">
         <p className="text-[13px] text-white/35">Servicios que ofrece tu negocio.</p>
         {!showForm && (
-          <button onClick={openAdd} className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150">
+          <button onClick={openAdd} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150">
             + Agregar
           </button>
         )}
@@ -125,7 +125,7 @@ export default function ServiciosConfigPage() {
               <input
                 type="text" placeholder="Ej. Corte + Barba" value={form.name} autoFocus
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -133,7 +133,7 @@ export default function ServiciosConfigPage() {
               <input
                 type="number" placeholder="12000" value={form.price}
                 onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -141,10 +141,10 @@ export default function ServiciosConfigPage() {
               <select
                 value={form.duration_minutes}
                 onChange={(e) => setForm((f) => ({ ...f, duration_minutes: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
               >
                 {DURATIONS.map((d) => (
-                  <option key={d} value={d} className="bg-[#111]">
+                  <option key={d} value={d} className="bg-[#0f1e35]">
                     {d < 60 ? `${d} min` : `${d / 60}h${d % 60 ? ` ${d % 60}min` : ''}`}
                   </option>
                 ))}
@@ -157,7 +157,7 @@ export default function ServiciosConfigPage() {
             <textarea
               placeholder="Descripción opcional…" value={form.description} rows={2}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 resize-none"
+              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 resize-none"
             />
           </div>
 
@@ -175,15 +175,15 @@ export default function ServiciosConfigPage() {
                       key={s.id} type="button" onClick={() => toggleStaff(s.id)}
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] transition-all duration-150 ${
                         on
-                          ? 'bg-amber-500/15 border border-amber-500/40 text-amber-400'
+                          ? 'bg-amber-500/15 border border-blue-500/40 text-blue-400'
                           : 'bg-white/[0.04] border border-white/[0.10] text-white/50 hover:border-white/[0.20]'
                       }`}
                     >
-                      <div className={`w-5 h-5 rounded-full overflow-hidden border shrink-0 ${on ? 'border-amber-500/40' : 'border-white/10'}`}>
+                      <div className={`w-5 h-5 rounded-full overflow-hidden border shrink-0 ${on ? 'border-blue-500/40' : 'border-white/10'}`}>
                         {s.avatar_url ? (
                           <img src={s.avatar_url} alt={s.name} className="w-full h-full object-cover" />
                         ) : (
-                          <div className={`w-full h-full flex items-center justify-center text-[9px] font-bold ${on ? 'bg-amber-500/20 text-amber-400' : 'bg-white/[0.06] text-white/40'}`}>
+                          <div className={`w-full h-full flex items-center justify-center text-[9px] font-bold ${on ? 'bg-blue-500/20 text-blue-400' : 'bg-white/[0.06] text-white/40'}`}>
                             {s.name.charAt(0).toUpperCase()}
                           </div>
                         )}
@@ -199,7 +199,7 @@ export default function ServiciosConfigPage() {
 
           <div className="flex gap-3 pt-1">
             <button onClick={handleSave} disabled={saving || !form.name.trim() || !form.price}
-              className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40">
               {saving ? 'Guardando…' : editingId ? 'Guardar cambios' : 'Agregar'}
             </button>
             <button onClick={cancelForm} className="px-5 py-2 rounded-xl text-[13px] text-white/40 hover:text-white/60 transition-colors duration-150">
@@ -227,7 +227,7 @@ export default function ServiciosConfigPage() {
                     {s.description ? ` · ${s.description}` : ''}
                   </p>
                   {assigned.length > 0 && (
-                    <p className="text-[11px] text-amber-400/60 mt-0.5">{assigned.join(', ')}</p>
+                    <p className="text-[11px] text-blue-400/60 mt-0.5">{assigned.join(', ')}</p>
                   )}
                 </div>
                 <div className="flex gap-2 shrink-0">

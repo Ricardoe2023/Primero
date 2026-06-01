@@ -89,14 +89,14 @@ export default function ConsentimientoConfigPage() {
           value={text}
           onChange={e => setText(e.target.value)}
           rows={18}
-          className="w-full bg-white/[0.04] border border-white/[0.10] rounded-xl px-4 py-3.5 text-[13px] text-white/70 placeholder-white/20 focus:outline-none focus:border-amber-500/40 resize-y leading-relaxed font-mono"
+          className="w-full bg-white/[0.04] border border-white/[0.10] rounded-xl px-4 py-3.5 text-[13px] text-white/70 placeholder-white/20 focus:outline-none focus:border-blue-500/40 resize-y leading-relaxed font-mono"
         />
 
         <div className="flex items-center gap-4">
           <button
             onClick={handleSave}
             disabled={saving || !isDirty}
-            className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
           >
             {saving ? 'Guardando…' : 'Guardar cambios'}
           </button>

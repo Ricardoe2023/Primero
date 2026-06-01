@@ -15,8 +15,8 @@ interface Props {
   byStaff: StaffPoint[]
 }
 
-const AMBER = '#f59e0b'
-const AMBER_DIM = '#f59e0b40'
+const AMBER = '#3B82F6'
+const AMBER_DIM = '#3B82F640'
 
 function fmt(n: number) {
   if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`
@@ -27,7 +27,7 @@ function fmt(n: number) {
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null
   return (
-    <div className="px-3 py-2.5 rounded-xl bg-[#111]/90 border border-white/10 backdrop-blur-sm shadow-xl text-[12px]">
+    <div className="px-3 py-2.5 rounded-xl bg-[#0f1e35]/90 border border-white/10 backdrop-blur-sm shadow-xl text-[12px]">
       <p className="text-white/50 mb-1">{label}</p>
       {payload.map((p: any) => (
         <p key={p.dataKey} style={{ color: p.color }} className="font-semibold">
@@ -41,7 +41,7 @@ function CustomTooltip({ active, payload, label }: any) {
 export default function DashboardCharts({ weekly, monthly, byStaff }: Props) {
   return (
     <div className="space-y-4 mb-8">
-      <h2 className="text-[11px] uppercase tracking-[0.18em] font-medium text-amber-400/60">Analítica</h2>
+      <h2 className="text-[11px] uppercase tracking-[0.18em] font-medium text-blue-400/60">Analítica</h2>
 
       {/* Top row: weekly + staff */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
@@ -80,7 +80,7 @@ export default function DashboardCharts({ weekly, monthly, byStaff }: Props) {
                   <div key={s.nombre}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[12px] text-white/60 truncate max-w-[120px]">{s.nombre}</span>
-                      <span className="text-[12px] font-semibold text-amber-400">{fmt(s.ventas)}</span>
+                      <span className="text-[12px] font-semibold text-blue-400">{fmt(s.ventas)}</span>
                     </div>
                     <div className="h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
                       <div

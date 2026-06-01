@@ -154,7 +154,7 @@ export default function MarketplacePage() {
   return (
     <div className="px-8 py-8 max-w-3xl">
       <div className="mb-6">
-        <p className="text-[13px] text-amber-400/70 font-medium mb-0.5">Dashboard</p>
+        <p className="text-[13px] text-blue-400/70 font-medium mb-0.5">Dashboard</p>
         <h1 className="text-[22px] font-semibold text-white">Marketplace</h1>
         <p className="text-[13px] text-white/35 mt-0.5">Productos publicados en el catálogo público.</p>
       </div>
@@ -163,7 +163,7 @@ export default function MarketplacePage() {
         {!showForm && (
           <button
             onClick={openAdd}
-            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150"
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150"
           >
             + Agregar producto
           </button>
@@ -183,7 +183,7 @@ export default function MarketplacePage() {
             <div className="flex items-center gap-4">
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="w-20 h-20 rounded-xl border-2 border-dashed border-white/[0.15] hover:border-amber-500/40 bg-white/[0.03] flex items-center justify-center cursor-pointer transition-colors duration-150 overflow-hidden shrink-0"
+                className="w-20 h-20 rounded-xl border-2 border-dashed border-white/[0.15] hover:border-blue-500/40 bg-white/[0.03] flex items-center justify-center cursor-pointer transition-colors duration-150 overflow-hidden shrink-0"
               >
                 {imagePreview || currentImageUrl ? (
                   <img
@@ -199,7 +199,7 @@ export default function MarketplacePage() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="text-[12px] text-amber-400/70 hover:text-amber-400 transition-colors duration-150"
+                  className="text-[12px] text-blue-400/70 hover:text-blue-400 transition-colors duration-150"
                 >
                   {imagePreview || currentImageUrl ? 'Cambiar imagen' : 'Subir imagen'}
                 </button>
@@ -223,7 +223,7 @@ export default function MarketplacePage() {
                 placeholder="Ej. Pomada Fijadora"
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -233,7 +233,7 @@ export default function MarketplacePage() {
                 placeholder="Ej. American Crew"
                 value={form.brand}
                 onChange={(e) => setForm((f) => ({ ...f, brand: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -243,7 +243,7 @@ export default function MarketplacePage() {
                 placeholder="9990"
                 value={form.price}
                 onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -253,7 +253,7 @@ export default function MarketplacePage() {
                 placeholder="0"
                 value={form.stock}
                 onChange={(e) => setForm((f) => ({ ...f, stock: e.target.value }))}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
           </div>
@@ -265,7 +265,7 @@ export default function MarketplacePage() {
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
               rows={2}
-              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 resize-none"
+              className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 resize-none"
             />
           </div>
 
@@ -273,7 +273,7 @@ export default function MarketplacePage() {
             <button
               onClick={handleSave}
               disabled={saving || !form.name.trim() || !form.price}
-              className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-40"
             >
               {saving ? 'Guardando…' : editingId ? 'Guardar cambios' : 'Agregar'}
             </button>

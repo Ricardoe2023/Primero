@@ -95,13 +95,13 @@ export default function ConsentPage() {
   }
 
   if (loading) return (
-    <div className="min-h-screen bg-[#080706] flex items-center justify-center">
+    <div className="min-h-screen bg-[#060f1a] flex items-center justify-center">
       <p className="text-white/30 text-[14px]">Cargando…</p>
     </div>
   )
 
   if (notFound) return (
-    <div className="min-h-screen bg-[#080706] flex items-center justify-center px-4 text-center">
+    <div className="min-h-screen bg-[#060f1a] flex items-center justify-center px-4 text-center">
       <div>
         <p className="text-white/40 text-[16px] font-medium mb-1">Enlace inválido</p>
         <p className="text-white/20 text-[13px]">Este enlace no existe o ya no está disponible.</p>
@@ -113,7 +113,7 @@ export default function ConsentPage() {
 
   // ── Document view (signed) ────────────────────────────────────────────────
   if (alreadySigned) return (
-    <div className="min-h-screen bg-[#080706] px-4 py-8 pb-16 print:bg-white print:text-black print:px-8 print:py-6">
+    <div className="min-h-screen bg-[#060f1a] px-4 py-8 pb-16 print:bg-white print:text-black print:px-8 print:py-6">
       <style>{`@media print { .no-print { display: none !important; } }`}</style>
       <div className="max-w-2xl mx-auto">
 
@@ -188,13 +188,13 @@ export default function ConsentPage() {
 
   // ── Signing form (pending) ────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#080706] px-4 py-8 pb-16">
+    <div className="min-h-screen bg-[#060f1a] px-4 py-8 pb-16">
       <div className="max-w-lg mx-auto">
 
         {/* Logo / header */}
         <div className="text-center mb-7">
           <p className="text-[22px] font-bold text-white tracking-tight">gestai</p>
-          <p className="text-[12px] text-amber-400/70 mt-0.5">{consent?.business_name}</p>
+          <p className="text-[12px] text-blue-400/70 mt-0.5">{consent?.business_name}</p>
         </div>
 
         <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl overflow-hidden">
@@ -222,7 +222,7 @@ export default function ConsentPage() {
                 placeholder="Ingresa tu nombre completo"
                 value={name}
                 onChange={e => setName(e.target.value)}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-3 text-[14px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-3 text-[14px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             <div>
@@ -233,14 +233,14 @@ export default function ConsentPage() {
                 value={rut}
                 onChange={e => setRut(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSign()}
-                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-3 text-[14px] text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-white/[0.05] border border-white/[0.10] rounded-xl px-3 py-3 text-[14px] text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
               />
             </div>
             {error && <p className="text-[12px] text-red-400">{error}</p>}
             <button
               onClick={handleSign}
               disabled={signing || !name.trim() || !rut.trim()}
-              className="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[14px] font-semibold transition-colors duration-150 disabled:opacity-40"
+              className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[14px] font-semibold transition-colors duration-150 disabled:opacity-40"
             >
               {signing ? 'Firmando…' : '✍️ Firmar consentimiento'}
             </button>

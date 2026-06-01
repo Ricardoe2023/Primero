@@ -17,7 +17,7 @@ export default function ConfigShell({ children }: { children: React.ReactNode })
   return (
     <div className="px-4 sm:px-8 py-6 sm:py-8 max-w-3xl">
       <div className="mb-5">
-        <p className="text-[13px] text-amber-400/70 font-medium mb-0.5">Dashboard</p>
+        <p className="text-[13px] text-blue-400/70 font-medium mb-0.5">Dashboard</p>
         <h1 className="text-[22px] font-semibold text-white">Configuración</h1>
       </div>
 
@@ -30,7 +30,7 @@ export default function ConfigShell({ children }: { children: React.ReactNode })
               href={tab.href}
               className={`shrink-0 text-center py-2 px-2 sm:px-3 rounded-lg text-[11px] sm:text-[13px] font-medium transition-all duration-150 leading-tight whitespace-nowrap ${
                 active
-                  ? 'bg-amber-500/15 text-amber-400 border border-amber-500/25'
+                  ? 'bg-amber-500/15 text-blue-400 border border-blue-500/25'
                   : 'text-white/40 hover:text-white/60'
               }`}
             >

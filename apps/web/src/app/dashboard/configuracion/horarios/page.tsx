@@ -160,14 +160,14 @@ export default function HorariosPage() {
                     type="time"
                     value={day.open}
                     onChange={(e) => setTime(d.key, 'open', e.target.value)}
-                    className="bg-white/[0.06] border border-white/[0.10] rounded-lg px-3 py-1.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                    className="bg-white/[0.06] border border-white/[0.10] rounded-lg px-3 py-1.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                   />
                   <span className="text-white/25 text-[13px]">a</span>
                   <input
                     type="time"
                     value={day.close}
                     onChange={(e) => setTime(d.key, 'close', e.target.value)}
-                    className="bg-white/[0.06] border border-white/[0.10] rounded-lg px-3 py-1.5 text-[13px] text-white focus:outline-none focus:border-amber-500/50"
+                    className="bg-white/[0.06] border border-white/[0.10] rounded-lg px-3 py-1.5 text-[13px] text-white focus:outline-none focus:border-blue-500/50"
                   />
                 </div>
               ) : (
@@ -181,7 +181,7 @@ export default function HorariosPage() {
       <button
         onClick={handleSave}
         disabled={saving}
-        className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-50"
+        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-black text-[13px] font-semibold transition-colors duration-150 disabled:opacity-50"
       >
         {saving ? 'Guardando…' : saved ? '¡Guardado!' : 'Guardar horarios'}
       </button>
