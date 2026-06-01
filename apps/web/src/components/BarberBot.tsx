@@ -2,12 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 
-function GestaiIcon({ size = 36, color = '#3B82F6' }: { size?: number; color?: string }) {
+function GestaiIcon({ size = 36 }: { size?: number; color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="2 1 24 24" fill="none" aria-hidden>
-      <path d="M8 20 Q14 8 20 20" stroke={color} strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-      <path d="M4 22 Q14 2 24 22" stroke={color} strokeWidth="2.2" strokeLinecap="round" fill="none" strokeOpacity="0.5"/>
-      <circle cx="14" cy="22" r="2.2" fill={color} />
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden>
+      <rect x="14" y="14" width="22" height="22" rx="7" fill="#1D4ED8" fillOpacity="0.45"/>
+      <rect x="4"  y="4"  width="22" height="22" rx="7" fill="#3B82F6"/>
     </svg>
   )
 }
@@ -110,28 +109,26 @@ export default function BarberBot() {
           style={{ maxHeight: 'min(600px, calc(100dvh - 120px))' }}
         >
           <div
-            className="p-[5px] rounded-[1.75rem] bg-white/[0.06] border border-white/[0.12] shadow-[0_24px_64px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-2xl flex flex-col overflow-hidden"
+            className="rounded-3xl bg-white border border-blue-950/[0.08] shadow-[0_24px_64px_rgba(37,99,235,0.15),0_4px_16px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden"
             style={{ height: 'min(600px, calc(100dvh - 120px))' }}
           >
-            <div className="rounded-[calc(1.75rem-5px)] bg-[#0e0d0c] flex flex-col overflow-hidden h-full">
-
               {/* Header */}
-              <div className="flex items-center gap-3 px-5 py-3.5 border-b border-white/[0.06] shrink-0">
+              <div className="flex items-center gap-3 px-5 py-3.5 border-b border-blue-950/[0.06] shrink-0 bg-white">
                 <div className="relative shrink-0">
                   <GestaiIcon size={36} />
-                  <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0e0d0c]" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-white leading-none">{AGENT_NAME}</p>
-                  <p className="text-[11px] text-white/35 mt-0.5">Encuentra tu barbería o salón</p>
+                  <p className="text-[13px] font-semibold text-[#0a0f1e] leading-none">{AGENT_NAME}</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Asistente IA para profesionales</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-emerald-400/80 font-medium">En línea</span>
+                  <span className="text-[10px] text-emerald-500 font-medium">En línea</span>
                   <button
                     onClick={() => setOpen(false)}
-                    className="w-6 h-6 rounded-full bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center transition-colors duration-150"
+                    className="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors duration-150"
                   >
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#0a0f1e" strokeWidth="1.8" strokeLinecap="round">
                       <path d="M2 2l8 8M10 2l-8 8" />
                     </svg>
                   </button>
@@ -139,14 +136,14 @@ export default function BarberBot() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scroll-smooth">
+              <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scroll-smooth bg-[#f8faff]">
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex flex-col gap-2 ${msg.from === 'user' ? 'items-end' : 'items-start'}`}>
                     <div
                       className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed ${
                         msg.from === 'user'
-                          ? 'bg-blue-600 text-[white] font-medium rounded-br-sm'
-                          : 'bg-white/[0.07] border border-white/[0.08] text-white/85 rounded-bl-sm'
+                          ? 'bg-blue-600 text-white font-medium rounded-br-sm'
+                          : 'bg-white border border-blue-950/[0.08] text-slate-700 rounded-bl-sm shadow-[0_1px_4px_rgba(0,0,0,0.05)]'
                       }`}
                     >
                       {renderText(msg.text)}
@@ -155,9 +152,9 @@ export default function BarberBot() {
                 ))}
                 {typing && (
                   <div className="flex items-start">
-                    <div className="bg-white/[0.07] border border-white/[0.08] rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center">
+                    <div className="bg-white border border-blue-950/[0.08] rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center shadow-[0_1px_4px_rgba(0,0,0,0.05)]">
                       {[0, 1, 2].map((i) => (
-                        <span key={i} className="w-1.5 h-1.5 rounded-full bg-white/35 animate-bounce" style={{ animationDelay: `${i * 150}ms` }} />
+                        <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce" style={{ animationDelay: `${i * 150}ms` }} />
                       ))}
                     </div>
                   </div>
@@ -168,18 +165,18 @@ export default function BarberBot() {
               {/* Input */}
               <form
                 onSubmit={(e) => { e.preventDefault(); sendMessage(input) }}
-                className="px-3 pb-3 pt-2.5 border-t border-white/[0.06] flex gap-2 shrink-0"
+                className="px-3 pb-3 pt-2.5 border-t border-blue-950/[0.06] flex gap-2 shrink-0 bg-white"
               >
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="¿Qué estás buscando?"
-                  className="flex-1 bg-white/[0.05] border border-white/[0.09] rounded-xl px-3.5 py-2.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-blue-600/40 transition-colors duration-150"
+                  className="flex-1 bg-slate-50 border border-blue-950/[0.08] rounded-xl px-3.5 py-2.5 text-[#0a0f1e] text-[13px] placeholder-slate-300 focus:outline-none focus:border-blue-400 transition-colors duration-150"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || typing}
-                  className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-[white] flex items-center justify-center shrink-0 active:scale-95 transition-all"
+                  className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-white flex items-center justify-center shrink-0 active:scale-95 transition-all"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z" />
@@ -188,11 +185,10 @@ export default function BarberBot() {
               </form>
 
               {/* Powered by */}
-              <div className="text-center pb-2.5">
-                <span className="text-[10px] text-white/15">Agente IA · powered by </span>
-                <span className="text-[10px] text-blue-600/40 font-medium">gestai</span>
+              <div className="text-center pb-2.5 bg-white">
+                <span className="text-[10px] text-slate-300">Agente IA · powered by </span>
+                <span className="text-[10px] text-blue-400 font-medium">gestai</span>
               </div>
-            </div>
           </div>
         </div>
       )}
@@ -202,7 +198,7 @@ export default function BarberBot() {
         <div className="fixed bottom-8 right-20 z-50 pointer-events-none" style={{ animation: 'bot-float 3s ease-in-out infinite' }}>
           <div
             className="px-3.5 py-2 rounded-2xl rounded-br-sm text-[12px] font-medium text-white/70 whitespace-nowrap"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.09)', backdropFilter: 'blur(12px)' }}
+            style={{ background: 'rgba(255,255,255,0.95)', border: '1px solid rgba(37,99,235,0.12)', backdropFilter: 'blur(12px)', color: '#0a0f1e' }}
           >
             ✨ Tu asistente Gestai
           </div>
@@ -214,10 +210,10 @@ export default function BarberBot() {
       <button
         onClick={() => setOpen(o => !o)}
         aria-label="Abrir agente GestAI"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_28px_rgba(251,191,36,0.3)]"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_28px_rgba(37,99,235,0.35)]"
         style={{
-          background: open ? '#1a1816' : 'linear-gradient(135deg, #3B82F6 0%, #d97706 100%)',
-          border: open ? '1.5px solid rgba(255,255,255,0.10)' : 'none',
+          background: open ? '#f0f4ff' : 'linear-gradient(135deg, #60A5FA 0%, #1D4ED8 100%)',
+          border: open ? '1.5px solid rgba(37,99,235,0.15)' : 'none',
           transition: 'transform 200ms cubic-bezier(0.16,1,0.3,1), background 250ms',
         }}
       >
