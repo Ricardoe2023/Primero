@@ -60,7 +60,7 @@ export default function DashboardShell({ businesses, business, userEmail, isClie
     const slug = base || 'mi-negocio'
     const { data: biz } = await supabase
       .from('businesses')
-      .insert({ name: newBizName.trim(), slug, owner_id: user.id, industry: 'barbershop' })
+      .insert({ name: newBizName.trim(), slug, owner_id: user.id, industry: 'general' })
       .select('id')
       .single()
 

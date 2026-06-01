@@ -8,6 +8,33 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+// ─── WhatsApp via Green API ───────────────────────────────────────────────────
+
+function normalizePhone(raw: string): string {
+  const digits = raw.replace(/\s+/g, '').replace(/[^+\d]/g, '')
+  // Green API espera formato: 56912345678@c.us (sin +)
+  const clean = digits.startsWith('+') ? digits.slice(1) : digits.startsWith('0') ? '56' + digits.slice(1) : digits.length <= 9 ? '56' + digits : digits
+  return `${clean}@c.us`
+}
+
+async function sendWhatsApp(phone: string, message: string): Promise<void> {
+  const idInstance    = process.env.GREENAPI_ID_INSTANCE?.replace(/^﻿/, '').trim()
+  const apiToken      = process.env.GREENAPI_API_TOKEN?.replace(/^﻿/, '').trim()
+  if (!idInstance || !apiToken) { console.error('[WA] Missing GREENAPI credentials'); return }
+
+  const chatId = normalizePhone(phone)
+  const server = idInstance.slice(0, 4)
+  console.log('[WA] Sending to', chatId, 'via server', server)
+
+  const res = await fetch(`https://${server}.api.green-api.com/waInstance${idInstance}/sendMessage/${apiToken}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chatId, message }),
+  })
+  const json = await res.json()
+  console.log('[WA] Response:', JSON.stringify(json))
+}
+
 // ─── Tool definitions ────────────────────────────────────────────────────────
 
 const TOOLS: Anthropic.Tool[] = [
@@ -22,7 +49,7 @@ const TOOLS: Anthropic.Tool[] = [
         date:           { type: 'string', description: 'Fecha en formato YYYY-MM-DD' },
         start_time:     { type: 'string', description: 'Hora de inicio en formato HH:MM (24h)' },
         customer_name:  { type: 'string', description: 'Nombre completo del cliente' },
-        customer_phone: { type: 'string', description: 'Teléfono del cliente' },
+        customer_phone: { type: 'string', description: 'Teléfono del cliente con WhatsApp (con código de país si lo tiene)' },
       },
       required: ['staff_name', 'service_name', 'date', 'start_time', 'customer_name', 'customer_phone'],
     },
@@ -31,8 +58,10 @@ const TOOLS: Anthropic.Tool[] = [
 
 // ─── Execute tool ─────────────────────────────────────────────────────────────
 
-async function executeTool(name: string, input: any, businessId: string): Promise<string> {
-  if (name !== 'crear_cita') return 'Herramienta desconocida.'
+type ToolResult = { result: string; waPhone?: string; waMsg?: string }
+
+async function executeTool(name: string, input: any, businessId: string): Promise<ToolResult> {
+  if (name !== 'crear_cita') return { result: 'Herramienta desconocida.' }
 
   const [{ data: staffList }, { data: serviceList }] = await Promise.all([
     supabase.from('staff').select('id, name').eq('business_id', businessId).eq('is_active', true),
@@ -48,14 +77,14 @@ async function executeTool(name: string, input: any, businessId: string): Promis
     input.service_name.toLowerCase().includes(s.name.toLowerCase())
   )
 
-  if (!staff) return `No encontré al barbero "${input.staff_name}". Verifica el nombre.`
-  if (!service) return `No encontré el servicio "${input.service_name}". Verifica el nombre.`
+  if (!staff) return { result: `No encontré al barbero "${input.staff_name}". Verifica el nombre.` }
+  if (!service) return { result: `No encontré el servicio "${input.service_name}". Verifica el nombre.` }
 
   const [h, m] = input.start_time.split(':').map(Number)
   const endMin = h * 60 + m + (service.duration_minutes ?? 30)
   const end_time = `${String(Math.floor(endMin / 60)).padStart(2, '0')}:${String(endMin % 60).padStart(2, '0')}`
 
-  const { data, error } = await supabase.from('appointments').insert({
+  const { error } = await supabase.from('appointments').insert({
     business_id: businessId,
     staff_id: staff.id,
     service_id: service.id,
@@ -67,11 +96,28 @@ async function executeTool(name: string, input: any, businessId: string): Promis
     status: 'confirmed',
     source: 'agent',
     notes: `Agendado por asistente IA`,
-  }).select().single()
+  })
 
-  if (error) return `Error al crear la cita: ${error.message}`
+  if (error) return { result: `Error al crear la cita: ${error.message}` }
 
-  return `CITA_CREADA: ID ${data.id} | ${input.customer_name} | ${service.name} con ${staff.name} | ${input.date} ${input.start_time}–${end_time} | $${Number(service.price).toLocaleString('es-CL')}`
+  const { data: biz } = await supabase.from('businesses').select('name, phone').eq('id', businessId).single()
+  const dateLabel = new Date(input.date + 'T12:00:00').toLocaleDateString('es-CL', {
+    weekday: 'long', day: 'numeric', month: 'long',
+  })
+  const waMsg =
+    `✅ *Reserva confirmada en ${biz?.name ?? 'el local'}*\n\n` +
+    `✂️ *Servicio:* ${service.name}\n` +
+    `👤 *Profesional:* ${staff.name}\n` +
+    `📅 *Fecha:* ${dateLabel}\n` +
+    `🕐 *Hora:* ${input.start_time} – ${end_time}\n` +
+    `💰 *Precio:* $${Number(service.price).toLocaleString('es-CL')}\n\n` +
+    `Te avisaremos 30 min antes. ${biz?.phone ? `Consultas al ${biz.phone}.` : ''}`
+
+  return {
+    result: `CITA_CREADA: ${input.customer_name} | ${service.name} con ${staff.name} | ${input.date} ${input.start_time}–${end_time} | $${Number(service.price).toLocaleString('es-CL')}`,
+    waPhone: input.customer_phone,
+    waMsg,
+  }
 }
 
 // ─── Build context ────────────────────────────────────────────────────────────
@@ -80,33 +126,47 @@ async function buildContext(businessId?: string): Promise<string> {
   let bizQuery = supabase.from('businesses').select('id, name, description, phone').order('name')
   if (businessId) bizQuery = bizQuery.eq('id', businessId)
 
+  const today = new Date().toISOString().split('T')[0]
+  const in7days = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+
+  let apptQuery = supabase
+    .from('appointments')
+    .select('business_id, staff_id, date, start_time, end_time, status')
+    .gte('date', today)
+    .lte('date', in7days)
+    .in('status', ['confirmed', 'pending'])
+  if (businessId) apptQuery = apptQuery.eq('business_id', businessId)
+
   const [
     { data: businesses },
     { data: services },
     { data: products },
     { data: staff },
     { data: locations },
+    { data: appointments },
   ] = await Promise.all([
     bizQuery,
     supabase.from('services').select('id, name, price, duration_minutes, description, staff_ids, business_id').eq('is_active', true),
     supabase.from('products').select('name, brand, price, description, business_id').eq('is_active', true),
     supabase.from('staff').select('id, name, role, specialties, bio, business_id').eq('is_active', true),
     supabase.from('locations').select('business_id, address, city, hours').eq('is_active', true),
+    apptQuery,
   ])
 
   if (!businesses?.length) return 'Aún no hay negocios registrados.'
 
   return businesses.map((b) => {
-    const svcs  = (services   ?? []).filter(x => x.business_id === b.id)
-    const prods = (products   ?? []).filter(x => x.business_id === b.id)
-    const stf   = (staff      ?? []).filter(x => x.business_id === b.id)
-    const loc   = (locations  ?? []).find(x => x.business_id === b.id)
+    const svcs  = (services     ?? []).filter(x => x.business_id === b.id)
+    const prods = (products     ?? []).filter(x => x.business_id === b.id)
+    const stf   = (staff        ?? []).filter(x => x.business_id === b.id)
+    const loc   = (locations    ?? []).find(x => x.business_id === b.id)
+    const appts = (appointments ?? []).filter(x => x.business_id === b.id)
 
-    // Hours
-    const DAY: Record<string, string> = { monday:'Lun', tuesday:'Mar', wednesday:'Mié', thursday:'Jue', friday:'Vie', saturday:'Sáb', sunday:'Dom' }
-    const ORDER = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+    // Hours — el dashboard guarda con claves numéricas (1=Lun … 0=Dom)
+    const DAY_NUM: Record<number, string> = { 1:'Lun', 2:'Mar', 3:'Mié', 4:'Jue', 5:'Vie', 6:'Sáb', 0:'Dom' }
+    const ORDER_NUM = [1, 2, 3, 4, 5, 6, 0]
     const hoursText = loc?.hours && Object.keys(loc.hours).length
-      ? ORDER.filter(d => loc.hours[d]).map(d => `${DAY[d]} ${loc.hours[d].open}-${loc.hours[d].close}`).join(', ')
+      ? ORDER_NUM.filter(d => loc.hours[String(d)]).map(d => `${DAY_NUM[d]} ${loc.hours[String(d)].open}-${loc.hours[String(d)].close}`).join(', ')
       : 'horario no configurado'
 
     // Staff with their services
@@ -128,6 +188,22 @@ async function buildContext(businessId?: string): Promise<string> {
       ? prods.map(p => `  • ${p.name}${p.brand ? ` (${p.brand})` : ''}: $${Number(p.price).toLocaleString('es-CL')}`).join('\n')
       : '  (sin productos)'
 
+    // Booked slots per staff for next 7 days
+    const bookedText = appts.length
+      ? (() => {
+          const byStaff: Record<string, string[]> = {}
+          for (const a of appts) {
+            const member = stf.find(s => s.id === a.staff_id)
+            if (!member) continue
+            if (!byStaff[member.name]) byStaff[member.name] = []
+            byStaff[member.name].push(`${a.date} ${a.start_time}-${a.end_time}`)
+          }
+          return Object.entries(byStaff)
+            .map(([name, slots]) => `  • ${name}: ${slots.join(', ')}`)
+            .join('\n')
+        })()
+      : '  (sin citas agendadas en los próximos 7 días)'
+
     return [
       `=== ${b.name} ===`,
       b.description ? `Descripción: ${b.description}` : '',
@@ -137,6 +213,7 @@ async function buildContext(businessId?: string): Promise<string> {
       `\nPERSONAL:\n${staffText}`,
       `\nSERVICIOS:\n${svcText}`,
       `\nPRODUCTOS:\n${prodText}`,
+      `\nCITAS OCUPADAS (próximos 7 días):\n${bookedText}`,
     ].filter(Boolean).join('\n')
   }).join('\n\n')
 }
@@ -162,16 +239,23 @@ Tu misión principal:
 2. AGENDAR CITAS usando la herramienta crear_cita
 
 Flujo para agendar:
-- Pregunta qué servicio quiere y con quién (si no lo sabe, sugiérele opciones)
-- Pregunta la fecha y hora que le acomoda
-- Pide nombre completo y teléfono
+- Si el cliente ya mencionó el servicio, NO lo preguntes de nuevo — confirma el servicio y precio directamente
+- Si el cliente ya mencionó al barbero o viene pre-seleccionado, NO lo preguntes — asume ese barbero
+- Cuando ya tienes servicio y barbero: ofrece 3-4 horarios disponibles para los próximos días como sugerencia, luego pregunta cuál le acomoda. Ejemplo: "Tengo disponible el jue 22 a las 10:00, 14:00 o 16:00, y el vie 23 a las 11:00 — ¿cuál te viene bien?"
+- Verifica disponibilidad usando "CITAS OCUPADAS": si el horario pedido está tomado, dilo y ofrece la siguiente hora libre
+- Pide nombre completo y teléfono (para enviar confirmación por WhatsApp)
 - Repite todo en un resumen y pide confirmación
 - Solo llama crear_cita DESPUÉS de que el cliente confirme
-- Tras crear la cita, confirma con los datos: fecha, hora, barbero y precio
+
+Para calcular disponibilidad:
+- Horario del negocio está en "Horario" del contexto (ej: Lun 09:00-20:00)
+- Bloques ocupados están en "CITAS OCUPADAS" con formato fecha HH:MM-HH:MM
+- Un horario está disponible si NO aparece en las citas ocupadas del barbero ese día y cabe dentro del horario de atención (considera la duración del servicio)
+- Si no hay citas para ese día, todos los horarios del turno están libres
 
 Hoy es ${today}.
 
-${staffName ? `El cliente ya eligió: ${staffName}. Cuando hables de agendar, asume que será con ${staffName} salvo que pida cambiar.` : ''}
+${staffName ? `El cliente ya eligió: ${staffName}. Asume que la cita será con ${staffName} sin preguntar.` : ''}
 
 INFORMACIÓN DEL NEGOCIO:
 ${context}`
@@ -191,7 +275,6 @@ export async function POST(req: NextRequest) {
     const readable = new ReadableStream({
       async start(controller) {
         try {
-          // ── Collect full first response (handles tool_use cleanly) ──
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           let assistantBlocks: any[] = []
           let toolUseId = ''
@@ -222,7 +305,6 @@ export async function POST(req: NextRequest) {
               if (event.delta.type === 'text_delta') {
                 const last = assistantBlocks[assistantBlocks.length - 1]
                 if (last?.type === 'text') (last as any).text += event.delta.text
-                // Stream text to client immediately
                 controller.enqueue(encoder.encode(event.delta.text))
               } else if (event.delta.type === 'input_json_delta') {
                 toolInputRaw += event.delta.partial_json
@@ -230,33 +312,19 @@ export async function POST(req: NextRequest) {
             }
           }
 
-          // ── If tool was called, execute and get follow-up ──
           if (hasToolUse && businessId) {
             const toolInput = JSON.parse(toolInputRaw || '{}')
-            const toolResult = await executeTool(toolName, toolInput, businessId)
+            const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
 
-            const last = assistantBlocks[assistantBlocks.length - 1]
-            if (last?.type === 'tool_use') (last as any).input = toolInput
+            // Construir respuesta de confirmación directamente (evita segunda llamada a Claude que puede exceder timeout de Vercel)
+            const confirmText = toolResult.startsWith('CITA_CREADA')
+              ? '¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
+              : toolResult
+            controller.enqueue(encoder.encode(confirmText))
 
-            const stream2 = await anthropic.messages.create({
-              model: 'claude-sonnet-4-6',
-              max_tokens: 400,
-              system,
-              messages: [
-                ...messages,
-                { role: 'assistant' as const, content: assistantBlocks },
-                {
-                  role: 'user' as const,
-                  content: [{ type: 'tool_result' as const, tool_use_id: toolUseId, content: toolResult }],
-                },
-              ],
-              stream: true,
-            })
-
-            for await (const event of stream2) {
-              if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-                controller.enqueue(encoder.encode(event.delta.text))
-              }
+            // Await WA mientras el stream sigue abierto — mantiene la función viva hasta completar
+            if (waPhone && waMsg) {
+              try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA]', e) }
             }
           }
         } catch (e) {

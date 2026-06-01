@@ -31,17 +31,17 @@ export default async function BusinessPage({ params }: { params: Promise<{ slug:
   const location = locations?.[0] ?? null
 
   return (
-    <div className="bg-[#080706] text-[#fafaf9] min-h-dvh">
+    <div className="bg-[#f0f4ff] text-[#0a0f1e] min-h-dvh">
 
       {/* Navbar */}
       <header className="fixed top-4 left-0 right-0 z-50 px-4">
-        <nav className="flex items-center justify-between max-w-2xl mx-auto px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.10] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+        <nav className="flex items-center justify-between max-w-2xl mx-auto px-5 py-3 rounded-full bg-white border border-blue-950/[0.06] shadow-[0_4px_24px_rgba(37,99,235,0.10),0_1px_4px_rgba(37,99,235,0.06)]">
           <Link href="/" className="flex items-center gap-2">
             <NovuLogo height={20} wordmark />
           </Link>
           <Link
             href={`/productos?biz=${business.id}`}
-            className="px-3.5 py-1.5 text-[12px] bg-amber-500 hover:bg-amber-400 text-[#080706] font-semibold rounded-full transition-colors"
+            className="px-4 py-1.5 text-[12px] bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-colors shadow-[0_2px_8px_rgba(37,99,235,0.30)]"
           >
             Mi marketplace
           </Link>
@@ -57,11 +57,11 @@ export default async function BusinessPage({ params }: { params: Promise<{ slug:
       />
 
       {/* Footer */}
-      <footer className="pb-10 pt-4 flex flex-col items-center gap-1.5 border-t border-white/[0.05]">
-        <Link href="/" className="opacity-40 hover:opacity-70 transition-opacity">
+      <footer className="pb-10 pt-6 flex flex-col items-center gap-1.5 border-t border-blue-950/[0.06]">
+        <Link href="/" className="opacity-30 hover:opacity-60 transition-opacity">
           <NovuLogo height={18} wordmark />
         </Link>
-        <p className="text-white/15 text-[11px]">Impulsado por Gestai · IA para tu negocio</p>
+        <p className="text-blue-950/25 text-[11px]">Impulsado por Gestai · IA para tu negocio</p>
       </footer>
     </div>
   )
