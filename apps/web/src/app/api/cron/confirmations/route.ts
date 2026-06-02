@@ -7,7 +7,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Instancia lazy — solo se crea cuando hay API key
+function getResend() {
+  if (!process.env.RESEND_API_KEY) return null
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 // ─── WhatsApp ─────────────────────────────────────────────────────────────────
 
@@ -35,7 +39,8 @@ async function sendWhatsApp(phone: string, message: string): Promise<boolean> {
 // ─── Email ────────────────────────────────────────────────────────────────────
 
 async function sendEmail(to: string, subject: string, html: string): Promise<boolean> {
-  if (!process.env.RESEND_API_KEY) return false
+  const resend = getResend()
+  if (!resend) return false
   try {
     const { error } = await resend.emails.send({
       from: 'GestAI <confirmaciones@gestai.app>',
