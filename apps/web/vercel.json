@@ -1,3 +1,9 @@
 {
-  "alias": ["gestai-app.vercel.app"]
+  "alias": ["gestai-app.vercel.app"],
+  "crons": [
+    {
+      "path": "/api/cron/wa-confirmations",
+      "schedule": "*/2 * * * *"
+    }
+  ]
 }

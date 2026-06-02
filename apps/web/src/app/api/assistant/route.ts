@@ -58,7 +58,7 @@ const TOOLS: Anthropic.Tool[] = [
 
 // ─── Execute tool ─────────────────────────────────────────────────────────────
 
-type ToolResult = { result: string; waPhone?: string; waMsg?: string }
+type ToolResult = { result: string; waPhone?: string; waMsg?: string; apptId?: string }
 
 async function executeTool(name: string, input: any, businessId?: string): Promise<ToolResult> {
   if (name !== 'crear_cita') return { result: 'Herramienta desconocida.' }
@@ -113,6 +113,11 @@ async function executeTool(name: string, input: any, businessId?: string): Promi
 
   if (error) return { result: `Error al crear la cita: ${error.message}` }
 
+  // Obtener el ID de la cita recién creada para marcar wa_sent después
+  const { data: newAppt } = await supabase.from('appointments')
+    .select('id').eq('business_id', resolvedBizId).eq('customer_phone', input.customer_phone)
+    .eq('date', input.date).eq('start_time', input.start_time).order('created_at', { ascending: false }).limit(1).single()
+
   const { data: biz } = await supabase.from('businesses').select('name, phone').eq('id', resolvedBizId).single()
   const dateLabel = new Date(input.date + 'T12:00:00').toLocaleDateString('es-CL', {
     weekday: 'long', day: 'numeric', month: 'long',
@@ -130,6 +135,7 @@ async function executeTool(name: string, input: any, businessId?: string): Promi
     result: `CITA_CREADA: ${input.customer_name} | ${service.name} con ${staff.name} | ${input.date} ${input.start_time}–${end_time} | $${Number(service.price).toLocaleString('es-CL')}`,
     waPhone: input.customer_phone,
     waMsg,
+    apptId: newAppt?.id,
   }
 }
 
@@ -318,17 +324,26 @@ export async function POST(req: NextRequest) {
 
           if (hasToolUse) {
             const toolInput = JSON.parse(toolInputRaw || '{}')
-            const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
+            const { result: toolResult, waPhone, waMsg, apptId } = await executeTool(toolName, toolInput, businessId)
 
-            // Enviar confirmación al cliente (el stream sigue abierto mientras enviamos WA)
             const confirmText = toolResult.startsWith('CITA_CREADA')
               ? '¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
               : `⚠️ ${toolResult}`
             controller.enqueue(encoder.encode(confirmText))
 
-            // Enviar WhatsApp — con Haiku total ~3-4s, bien dentro del límite de 10s
+            // Intentar enviar WA inline — si falla, el cron job lo reintenta en max 2 min
             if (waPhone && waMsg) {
-              try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA]', e) }
+              try {
+                await sendWhatsApp(waPhone, waMsg)
+                // Marcar como enviado para que el cron no lo reenvíe
+                if (apptId) {
+                  await supabase.from('appointments')
+                    .update({ wa_sent: true, wa_sent_at: new Date().toISOString() })
+                    .eq('id', apptId)
+                }
+              } catch (e) {
+                console.error('[WA inline error - cron will retry]', e)
+              }
             }
           }
         } catch (e) {
