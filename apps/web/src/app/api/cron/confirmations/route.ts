@@ -43,7 +43,7 @@ async function sendEmail(to: string, subject: string, html: string): Promise<boo
   if (!resend) return false
   try {
     const { error } = await resend.emails.send({
-      from: 'GestAI <confirmaciones@gestai.app>',
+      from: 'GestAI <onboarding@resend.dev>',
       to,
       subject,
       html,
