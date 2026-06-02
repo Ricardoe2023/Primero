@@ -4,9 +4,11 @@ import { useState, useRef, useEffect } from 'react'
 
 function GestaiIcon({ size = 36 }: { size?: number; color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden>
-      <rect x="14" y="14" width="22" height="22" rx="7" fill="#1D4ED8" fillOpacity="0.45"/>
-      <rect x="4"  y="4"  width="22" height="22" rx="7" fill="#3B82F6"/>
+    <svg width={size} height={size} viewBox="0 0 52 52" fill="none" aria-hidden>
+      {/* sombra offset */}
+      <rect x="18" y="18" width="28" height="28" rx="9" fill="#1D4ED8" fillOpacity="0.5"/>
+      {/* forma principal */}
+      <rect x="6"  y="6"  width="28" height="28" rx="9" fill="#3B82F6"/>
     </svg>
   )
 }
@@ -210,20 +212,19 @@ export default function BarberBot() {
       <button
         onClick={() => setOpen(o => !o)}
         aria-label="Abrir agente GestAI"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_28px_rgba(37,99,235,0.35)]"
-        style={{
-          background: open ? '#f0f4ff' : 'linear-gradient(135deg, #60A5FA 0%, #1D4ED8 100%)',
-          border: open ? '1.5px solid rgba(37,99,235,0.15)' : 'none',
-          transition: 'transform 200ms cubic-bezier(0.16,1,0.3,1), background 250ms',
-        }}
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+        style={{ background: 'none', border: 'none', padding: 0, filter: open ? 'none' : 'drop-shadow(0 4px 16px rgba(37,99,235,0.40))' }}
       >
         {!open && unread > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">{unread}</span>
+          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center z-10">{unread}</span>
         )}
-        {open
-          ? <svg width="18" height="18" viewBox="0 0 12 12" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round"><path d="M2 2l8 8M10 2l-8 8" /></svg>
-          : <GestaiIcon size={30} color="white" />
-        }
+        {open ? (
+          <div className="w-12 h-12 rounded-2xl bg-white border border-blue-100 shadow-lg flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 12 12" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round"><path d="M2 2l8 8M10 2l-8 8" /></svg>
+          </div>
+        ) : (
+          <GestaiIcon size={52} />
+        )}
       </button>
     </>
   )
