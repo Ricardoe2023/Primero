@@ -40,7 +40,7 @@ async function sendWhatsApp(phone: string, message: string): Promise<void> {
 const TOOLS: Anthropic.Tool[] = [
   {
     name: 'crear_cita',
-    description: 'Crea una cita en el sistema. Úsala SOLO cuando el cliente haya confirmado: su nombre, teléfono, el barbero/estilista, el servicio, la fecha y la hora. Antes de llamarla, repite los datos al cliente y pide confirmación.',
+    description: 'Crea una cita en el sistema. Úsala SOLO cuando el cliente haya confirmado: su nombre, teléfono, email, el barbero/estilista, el servicio, la fecha y la hora. Antes de llamarla, repite los datos al cliente y pide confirmación.',
     input_schema: {
       type: 'object',
       properties: {
@@ -50,6 +50,7 @@ const TOOLS: Anthropic.Tool[] = [
         start_time:     { type: 'string', description: 'Hora de inicio en formato HH:MM (24h)' },
         customer_name:  { type: 'string', description: 'Nombre completo del cliente' },
         customer_phone: { type: 'string', description: 'Teléfono del cliente con WhatsApp (con código de país si lo tiene)' },
+        customer_email: { type: 'string', description: 'Email del cliente para enviar confirmación (opcional si no lo tiene)' },
       },
       required: ['staff_name', 'service_name', 'date', 'start_time', 'customer_name', 'customer_phone'],
     },
@@ -103,6 +104,7 @@ async function executeTool(name: string, input: any, businessId?: string): Promi
     service_id: service.id,
     customer_name: input.customer_name,
     customer_phone: input.customer_phone,
+    customer_email: input.customer_email ?? null,
     date: input.date,
     start_time: input.start_time,
     end_time,
@@ -262,7 +264,7 @@ Flujo para agendar:
 - Si el cliente ya mencionó al barbero o viene pre-seleccionado, NO lo preguntes — asume ese barbero
 - Cuando ya tienes servicio y barbero: ofrece 3-4 horarios disponibles para los próximos días como sugerencia, luego pregunta cuál le acomoda. Ejemplo: "Tengo disponible el jue 22 a las 10:00, 14:00 o 16:00, y el vie 23 a las 11:00 — ¿cuál te viene bien?"
 - Verifica disponibilidad usando "CITAS OCUPADAS": si el horario pedido está tomado, dilo y ofrece la siguiente hora libre
-- Pide nombre completo y teléfono (para enviar confirmación por WhatsApp)
+- Pide nombre completo, teléfono y email (para enviar confirmación por WhatsApp y correo). Si no tiene email, no es obligatorio
 - Repite todo en un resumen y pide confirmación
 - Solo llama crear_cita DESPUÉS de que el cliente confirme
 
