@@ -60,12 +60,25 @@ const TOOLS: Anthropic.Tool[] = [
 
 type ToolResult = { result: string; waPhone?: string; waMsg?: string }
 
-async function executeTool(name: string, input: any, businessId: string): Promise<ToolResult> {
+async function executeTool(name: string, input: any, businessId?: string): Promise<ToolResult> {
   if (name !== 'crear_cita') return { result: 'Herramienta desconocida.' }
 
+  // Si no hay businessId, buscarlo desde el nombre del staff
+  let resolvedBizId = businessId
+  if (!resolvedBizId && input.staff_name) {
+    const { data: staffMatch } = await supabase.from('staff')
+      .select('business_id')
+      .ilike('name', `%${input.staff_name.split(' ')[0]}%`)
+      .eq('is_active', true)
+      .limit(1)
+      .single()
+    resolvedBizId = staffMatch?.business_id
+  }
+  if (!resolvedBizId) return { result: 'No pude identificar el negocio. Por favor intenta de nuevo.' }
+
   const [{ data: staffList }, { data: serviceList }] = await Promise.all([
-    supabase.from('staff').select('id, name').eq('business_id', businessId).eq('is_active', true),
-    supabase.from('services').select('id, name, duration_minutes, price').eq('business_id', businessId).eq('is_active', true),
+    supabase.from('staff').select('id, name').eq('business_id', resolvedBizId).eq('is_active', true),
+    supabase.from('services').select('id, name, duration_minutes, price').eq('business_id', resolvedBizId).eq('is_active', true),
   ])
 
   const staff = (staffList ?? []).find(s =>
@@ -85,7 +98,7 @@ async function executeTool(name: string, input: any, businessId: string): Promis
   const end_time = `${String(Math.floor(endMin / 60)).padStart(2, '0')}:${String(endMin % 60).padStart(2, '0')}`
 
   const { error } = await supabase.from('appointments').insert({
-    business_id: businessId,
+    business_id: resolvedBizId,
     staff_id: staff.id,
     service_id: service.id,
     customer_name: input.customer_name,
@@ -100,7 +113,7 @@ async function executeTool(name: string, input: any, businessId: string): Promis
 
   if (error) return { result: `Error al crear la cita: ${error.message}` }
 
-  const { data: biz } = await supabase.from('businesses').select('name, phone').eq('id', businessId).single()
+  const { data: biz } = await supabase.from('businesses').select('name, phone').eq('id', resolvedBizId).single()
   const dateLabel = new Date(input.date + 'T12:00:00').toLocaleDateString('es-CL', {
     weekday: 'long', day: 'numeric', month: 'long',
   })
@@ -303,7 +316,7 @@ export async function POST(req: NextRequest) {
             }
           }
 
-          if (hasToolUse && businessId) {
+          if (hasToolUse) {
             const toolInput = JSON.parse(toolInputRaw || '{}')
             const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
 
