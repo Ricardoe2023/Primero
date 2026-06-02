@@ -60,11 +60,16 @@ export default async function AgendaPage() {
   const todayStr = today.toISOString().split('T')[0]
   const in7daysStr = new Date(today.getTime() + 7 * 86400000).toISOString().split('T')[0]
 
-  const bizQuery = activeBizId
-    ? supabase.from('businesses').select('id, name').eq('owner_id', user.id).eq('id', activeBizId).single()
-    : supabase.from('businesses').select('id, name').eq('owner_id', user.id).order('created_at', { ascending: true }).limit(1).single()
+  // Intentar con el cookie primero; si no pertenece al usuario, usar el primer negocio disponible
+  let { data: business } = activeBizId
+    ? await supabase.from('businesses').select('id, name').eq('owner_id', user.id).eq('id', activeBizId).single()
+    : { data: null }
 
-  const { data: business } = await bizQuery
+  if (!business) {
+    const { data: fallback } = await supabase.from('businesses').select('id, name').eq('owner_id', user.id).order('created_at', { ascending: true }).limit(1).single()
+    business = fallback ?? null
+  }
+
   const finalBiz = business ?? null
   const effectiveBizId = finalBiz?.id ?? null
 
