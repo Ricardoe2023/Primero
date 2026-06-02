@@ -1,4 +1,4 @@
-import { NextRequest, after } from 'next/server'
+import { NextRequest } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@supabase/supabase-js'
 
@@ -272,10 +272,6 @@ export async function POST(req: NextRequest) {
     const system = buildSystemPrompt(context, staffName)
     const encoder = new TextEncoder()
 
-    // Variables para capturar datos del tool fuera del stream
-    let pendingWaPhone: string | undefined
-    let pendingWaMsg: string | undefined
-
     const readable = new ReadableStream({
       async start(controller) {
         try {
@@ -311,14 +307,16 @@ export async function POST(req: NextRequest) {
             const toolInput = JSON.parse(toolInputRaw || '{}')
             const { result: toolResult, waPhone, waMsg } = await executeTool(toolName, toolInput, businessId)
 
+            // Enviar confirmación al cliente (el stream sigue abierto mientras enviamos WA)
             const confirmText = toolResult.startsWith('CITA_CREADA')
               ? '¡Lista la cita, po! 🤙 Te llegará un WhatsApp con los detalles al tiro.'
               : `⚠️ ${toolResult}`
             controller.enqueue(encoder.encode(confirmText))
 
-            // Guardar para enviar después de cerrar el stream
-            pendingWaPhone = waPhone
-            pendingWaMsg = waMsg
+            // Enviar WhatsApp — con Haiku total ~3-4s, bien dentro del límite de 10s
+            if (waPhone && waMsg) {
+              try { await sendWhatsApp(waPhone, waMsg) } catch (e) { console.error('[WA]', e) }
+            }
           }
         } catch (e) {
           console.error('[assistant stream error]', e)
@@ -326,13 +324,6 @@ export async function POST(req: NextRequest) {
           controller.close()
         }
       },
-    })
-
-    // Enviar WhatsApp después de que el stream haya cerrado
-    after(async () => {
-      if (pendingWaPhone && pendingWaMsg) {
-        try { await sendWhatsApp(pendingWaPhone, pendingWaMsg) } catch (e) { console.error('[WA after]', e) }
-      }
     })
 
     return new Response(readable, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
